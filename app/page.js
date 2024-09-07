@@ -24,7 +24,7 @@ export default function Home() {
                 <hr className="border-[#42b883] border-2 md:w-60 sm:w-40 w-32" />
               </div>
               <p className="max-w-[600px] text-muted-foreground md:text-xl text-gray-600">
-                I'm a passionate machine learning and web developer with a
+                I&apos;m a passionate machine learning and web developer with a
                 strong background in artificial intelligence technologies and
                 full-stack development.
               </p>
@@ -85,7 +85,8 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Here are some of the technologies and tools I'm proficient in:
+                Here are some of the technologies and tools I&apos;m proficient
+                in:
               </p>
             </div>
           </div>
