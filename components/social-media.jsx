@@ -21,7 +21,7 @@ export default function SocialMedia() {
           className="border shadow-md rounded-full"
         />
       </span>
-      <p className="w-1/2 text-center text-gray-600">
+      <p className="md:w-1/2 w-3/4 text-center text-gray-600">
         My inbox is always open. Whether you have a question or just want to say
         hi, I’ll try my best to get back to you!
       </p>
