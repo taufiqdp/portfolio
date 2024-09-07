@@ -23,8 +23,6 @@
 // - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 // - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 // **/
-// import Link from "next/link";
-// import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 // import { Input } from "@/components/ui/input";
 // import { Textarea } from "@/components/ui/textarea";
 // import { Button } from "@/components/ui/button";
@@ -32,116 +30,7 @@
 // export function Component() {
 //   return (
 //     <div className="flex flex-col min-h-[100dvh]">
-//       <header className="px-4 lg:px-6 h-14 flex items-center">
-//         <Link
-//           href="#"
-//           className="flex items-center justify-center"
-//           prefetch={false}
-//         >
-//           <BriefcaseIcon className="h-6 w-6" />
-//           <span className="sr-only">Portfolio</span>
-//         </Link>
-//         <nav className="ml-auto flex gap-4 sm:gap-6">
-//           <Link
-//             href="#"
-//             className="text-sm font-medium hover:underline underline-offset-4"
-//             prefetch={false}
-//           >
-//             About
-//           </Link>
-//           <Link
-//             href="#"
-//             className="text-sm font-medium hover:underline underline-offset-4"
-//             prefetch={false}
-//           >
-//             Skills
-//           </Link>
-//           <Link
-//             href="#"
-//             className="text-sm font-medium hover:underline underline-offset-4"
-//             prefetch={false}
-//           >
-//             Education
-//           </Link>
-//           <Link
-//             href="#"
-//             className="text-sm font-medium hover:underline underline-offset-4"
-//             prefetch={false}
-//           >
-//             Projects
-//           </Link>
-//           <Link
-//             href="#"
-//             className="text-sm font-medium hover:underline underline-offset-4"
-//             prefetch={false}
-//           >
-//             Contact
-//           </Link>
-//         </nav>
-//       </header>
 //       <main className="flex-1">
-//         <section id="about" className="w-full py-12 md:py-24 lg:py-32">
-//           <div className="container px-6 grid gap-6 lg:grid-cols-2 lg:gap-12">
-//             <div className="flex flex-col justify-center space-y-4">
-//               <div className="space-y-2">
-//                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-//                   Hi, I'm John Doe
-//                 </h1>
-//                 <p className="max-w-[600px] text-muted-foreground md:text-xl">
-//                   I'm a passionate web developer with a strong background in
-//                   front-end technologies. I love creating beautiful and
-//                   functional websites that provide a great user experience.
-//                 </p>
-//               </div>
-//             </div>
-//             <div className="flex justify-center">
-//               <Avatar>
-//                 <AvatarImage src="/placeholder-user.jpg" alt="John Doe" />
-//                 <AvatarFallback>JD</AvatarFallback>
-//               </Avatar>
-//             </div>
-//           </div>
-//         </section>
-//         <section
-//           id="skills"
-//           className="w-full py-12 md:py-24 lg:py-32 bg-muted"
-//         >
-//           <div className="container px-6">
-//             <div className="flex flex-col items-center justify-center space-y-4 text-center">
-//               <div className="space-y-2">
-//                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-//                   Skills
-//                 </h2>
-//                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-//                   Here are some of the technologies and tools I'm proficient in:
-//                 </p>
-//               </div>
-//             </div>
-//             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-//               <div className="grid gap-4">
-//                 <div className="grid gap-1">
-//                   <h3 className="text-xl font-bold">Front-End</h3>
-//                   <p className="text-muted-foreground">
-//                     React, Next.js, HTML, CSS, JavaScript, TypeScript, Tailwind
-//                     CSS
-//                   </p>
-//                 </div>
-//                 <div className="grid gap-1">
-//                   <h3 className="text-xl font-bold">Back-End</h3>
-//                   <p className="text-muted-foreground">
-//                     Node.js, Express, MongoDB, PostgreSQL, Firebase
-//                   </p>
-//                 </div>
-//                 <div className="grid gap-1">
-//                   <h3 className="text-xl font-bold">Tools</h3>
-//                   <p className="text-muted-foreground">
-//                     Git, GitHub, VS Code, Figma, Postman
-//                   </p>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </section>
 //         <section
 //           id="education"
 //           className="w-full py-12 md:py-24 lg:py-32 bg-muted"
@@ -309,47 +198,6 @@
 //           </div>
 //         </section>
 //       </main>
-//       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-6 md:px-6 border-t">
-//         <p className="text-xs text-muted-foreground">
-//           &copy; 2024 John Doe. All rights reserved.
-//         </p>
-//         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-//           <Link
-//             href="#"
-//             className="text-xs hover:underline underline-offset-4"
-//             prefetch={false}
-//           >
-//             Privacy
-//           </Link>
-//           <Link
-//             href="#"
-//             className="text-xs hover:underline underline-offset-4"
-//             prefetch={false}
-//           >
-//             Terms
-//           </Link>
-//         </nav>
-//       </footer>
 //     </div>
-//   );
-// }
-
-// function BriefcaseIcon(props) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-//       <rect width="20" height="14" x="2" y="6" rx="2" />
-//     </svg>
 //   );
 // }
