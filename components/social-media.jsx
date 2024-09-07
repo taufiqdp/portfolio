@@ -30,36 +30,42 @@ export default function SocialMedia() {
         <Link
           href="mailto:topexdw@gmail.com"
           className="border border-[#42b883] text-xl text-[#42b883] p-2 rounded-full hover:text-white hover:bg-[#42b883]"
+          target="_blank"
         >
           <AiOutlineMail />
         </Link>
         <Link
           href="https://linkedin.com/in/taufiq-dwi-purnomo"
           className="border border-[#42b883] text-xl text-[#42b883] p-2 rounded-full hover:text-white hover:bg-[#42b883]"
+          target="_blank"
         >
           <FaLinkedinIn />
         </Link>
         <Link
           href="https://x.com/taufiqdp"
           className="border border-[#42b883] text-xl text-[#42b883] p-2 rounded-full hover:text-white hover:bg-[#42b883]"
+          target="_blank"
         >
           <FaXTwitter />
         </Link>
         <Link
           href="https://instagram.com/taufiqdp_"
           className="border border-[#42b883] text-xl text-[#42b883] p-2 rounded-full hover:text-white hover:bg-[#42b883]"
+          target="_blank"
         >
           <FaInstagram />
         </Link>
         <Link
           href="https://letterboxd.com/taufiqdp"
           className="border border-[#42b883] text-xl text-[#42b883] p-2 rounded-full hover:text-white hover:bg-[#42b883]"
+          target="_blank"
         >
           <FaLetterboxd />
         </Link>
         <Link
           href="https://www.last.fm/user/taufiqdp"
           className="border border-[#42b883] text-xl text-[#42b883] p-2 rounded-full hover:text-white hover:bg-[#42b883]"
+          target="_blank"
         >
           <FaLastfm />
         </Link>
