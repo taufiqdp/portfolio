@@ -1,4 +1,4 @@
-import userImage from "@/assets/placeholder-user.png";
+import userImage from "@/assets/me.jpg";
 import Image from "next/image";
 import Link from "next/link";
 
