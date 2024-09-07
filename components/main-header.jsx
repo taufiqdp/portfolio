@@ -1,4 +1,4 @@
-import userImage from "@/assets/placeholder-user.png";
+import userImage from "@/assets/me.jpg";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,7 +8,7 @@ import { SiHuggingface } from "react-icons/si";
 
 export default function MainHeader() {
   return (
-    <section id="about" className="w-full md:py-12">
+    <section id="about" className="w-full md:pt-12">
       <div className="container grid gap-6 lg:grid-cols-2 lg:gap-12">
         <div className="flex flex-col justify-center space-y-4 lg:order-1 order-2">
           <div className="space-y-10">
@@ -22,9 +22,9 @@ export default function MainHeader() {
               <hr className="border-[#42b883] border-2 md:w-60 sm:w-40 w-32" />
             </div>
             <p className="max-w-[600px] text-muted-foreground md:text-xl text-gray-600">
-              I&apos;m a passionate machine learning and web developer with a
-              strong background in artificial intelligence technologies and
-              full-stack development.
+              I&apos;m a passionate machine learning engineer and web developer
+              with a strong background in artificial intelligence technologies
+              and full-stack development.
             </p>
             <div className="flex items-center md:justify-start gap-4">
               <Link
