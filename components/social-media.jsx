@@ -11,7 +11,7 @@ import { FaLetterboxd } from "react-icons/fa6";
 
 export default function SocialMedia() {
   return (
-    <section className="flex flex-col items-center justify-center gap-6">
+    <section className="flex flex-col items-center justify-center gap-6 pt-40">
       <span>
         <Image
           src={logo}
