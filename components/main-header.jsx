@@ -28,7 +28,7 @@ export default function MainHeader() {
             </p>
             <div className="flex items-center md:justify-start gap-4">
               <Link
-                href="/files/CV-Taufiq.pdf"
+                href="#"
                 target="_blank"
                 className="flex w-fit items-center gap-2 border py-2 px-3 rounded-lg bg-[#42b883] hover:bg-[#4bd497] text-white"
               >
