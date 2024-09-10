@@ -1,10 +1,10 @@
-import userImage from "@/assets/me.jpg";
+import userImage from "@/assets/me-2.JPG";
 import Image from "next/image";
 import Link from "next/link";
 
 import { FaDownload } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa";
-import { SiHuggingface } from "react-icons/si";
+import hfLogo from "@/assets/hf-logo.svg";
 
 export default function MainHeader() {
   return (
@@ -28,7 +28,8 @@ export default function MainHeader() {
             </p>
             <div className="flex items-center md:justify-start gap-4">
               <Link
-                href="/"
+                href="/files/CV-Taufiq.pdf"
+                target="_blank"
                 className="flex w-fit items-center gap-2 border py-2 px-3 rounded-lg bg-[#42b883] hover:bg-[#4bd497] text-white"
               >
                 <FaDownload />
@@ -46,7 +47,7 @@ export default function MainHeader() {
                 className="border p-2 rounded-lg bg-white text-2xl"
                 target="_blank"
               >
-                <SiHuggingface />
+                <Image src={hfLogo} height={24} width={24} alt="hf logo" />
               </Link>
             </div>
           </div>
