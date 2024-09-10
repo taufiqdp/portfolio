@@ -1,4 +1,4 @@
-import { Brain, Code, Database, Wrench } from "lucide-react";
+import { Brain, Code, Database, Wrench, Cloudy } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function DevSkillsShowcase() {
@@ -7,10 +7,11 @@ export default function DevSkillsShowcase() {
       icon: <Brain className="h-8 w-8" />,
       title: "Machine Learning",
       tools: [
-        "TensorFlow",
         "PyTorch",
         "Jax",
         "Flax",
+        "TensorFlow",
+        "Keras",
         "Scikit-learn",
         "Pandas",
         "NumPy",
@@ -19,23 +20,45 @@ export default function DevSkillsShowcase() {
     },
     {
       icon: <Code className="h-8 w-8" />,
-      title: "Front-end",
-      tools: ["React", "Vue", "JavaScript", "Tailwind CSS", "Next.js"],
+      title: "Frontend",
+      tools: ["React", "Next.js", "Vue", "JavaScript", "Tailwind CSS"],
     },
     {
       icon: <Database className="h-8 w-8" />,
-      title: "Back-end",
-      tools: ["Next.js", "Python", "PostgreSQL", "Go", "SQLite"],
+      title: "Backend",
+      tools: [
+        "Go",
+        "Next.js",
+        "Node.js",
+        "Flask",
+        "FastAPI",
+        "PostgreSQL",
+        "SQLite",
+        "MongoDB",
+      ],
     },
     {
       icon: <Wrench className="h-8 w-8" />,
       title: "Dev Tools",
-      tools: ["Git", "Github", "Docker", "VS Code"],
+      tools: [
+        "Git",
+        "Github",
+        "Docker",
+        "VS Code",
+        "CLI",
+        "Jupyter Notebook",
+        "Google Colab",
+      ],
+    },
+    {
+      icon: <Cloudy className="h-8 w-8" />,
+      title: "Cloud",
+      tools: ["AWS", "GCP", "Vercel"],
     },
   ];
 
   return (
-    <div className="container space-y-10" id="skills">
+    <section className="space-y-10 pt-20 w-full" id="skills">
       <div className="flex items-center gap-6">
         <hr className="w-full border border-[#42b883]" />
         <h2 className="text-4xl font-bold text-center text-neutral-700">
@@ -69,6 +92,6 @@ export default function DevSkillsShowcase() {
           </Card>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
