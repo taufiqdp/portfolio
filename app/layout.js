@@ -11,9 +11,9 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Taufiq",
+  title: "Taufiq Dwi Purnomo",
   description:
-    "Taufiq Dwi Purnomo: Experienced Machine Learning Engineer and Web Developer specializing in AI solutions and responsive web applications. View my projects and skills.",
+    "Taufiq Dwi Purnomo: Experienced Machine Learning Engineer and Web Developer specializing in AI and web applications. View my projects and skills.",
   keywords:
     "Machine Learning, Web Development, AI, Portfolio, Taufiq Dwi Purnomo",
   author: "Taufiq Dwi Purnomo",
@@ -23,7 +23,7 @@ export const metadata = {
       "Explore the projects and skills of Taufiq Dwi Purnomo, a Machine Learning Engineer and Web Developer.",
     type: "website",
     url: "https://taufiqdp.com",
-    image: "https://taufiqdp.com/og-profile-image.jpg",
+    image: "https://taufiqdp.com/og-profile-image.png",
   },
 };
 
@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
                 "https://github.com/taufiqdp"
               ],
               "knowsAbout": ["Machine Learning", "Web Development", "Artificial Intelligence", "Python"],
-              "image": "https://taufiqdp.com/og-profile-image.jpg"
+              "image": "https://taufiqdp.com/og-profile-image.png"
             }
           `}
         </script>
