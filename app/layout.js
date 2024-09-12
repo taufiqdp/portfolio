@@ -2,7 +2,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import Head from "next/head";
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -23,6 +22,39 @@ export const metadata = {
       "Explore the projects and skills of Taufiq Dwi Purnomo, a Machine Learning Engineer and Web Developer.",
     type: "website",
     url: "https://taufiqdp.com",
+    images: [
+      {
+        url: "https://taufiqdp.com/og-profile-image.png",
+        width: 800,
+        height: 600,
+        alt: "Taufiq Dwi Purnomo",
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://taufiqdp.com",
+  },
+  structuredData: {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Taufiq Dwi Purnomo",
+    jobTitle: "Machine Learning Engineer & Web Developer",
+    url: "https://taufiqdp.com",
+    sameAs: [
+      "https://www.linkedin.com/in/taufiq-dwi-purnomo/",
+      "https://github.com/taufiqdp",
+    ],
+    knowsAbout: [
+      "Machine Learning",
+      "Deep Learning",
+      "Web Development",
+      "Artificial Intelligence",
+      "Python",
+    ],
     image: "https://taufiqdp.com/og-profile-image.png",
   },
 };
@@ -30,27 +62,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={geistMono.className}>
-      <Head>
-        <link rel="canonical" href="https://taufiqdp.com" />
-        <meta name="robots" content="index, follow" />
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Taufiq Dwi Purnomo",
-              "jobTitle": "Machine Learning Engineer & Web Developer",
-              "url": "https://taufiqdp.com",
-              "sameAs": [
-                "https://www.linkedin.com/in/taufiq-dwi-purnomo/",
-                "https://github.com/taufiqdp"
-              ],
-              "knowsAbout": ["Machine Learning", "Web Development", "Artificial Intelligence", "Python"],
-              "image": "https://taufiqdp.com/og-profile-image.png"
-            }
-          `}
-        </script>
-      </Head>
       <body>
         <Navbar />
         <main className="bg-[#f3f4f6] min-h-screen py-20 lg:px-40 md:px-20 sm:px-10 px-5">
