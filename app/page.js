@@ -1,15 +1,11 @@
-import Education from "@/components/education";
-import MainHeader from "@/components/main-header";
-import Skills from "@/components/skills";
-import SocialMedia from "@/components/social-media";
+import Content from "@/components/content";
+import Profile from "@/components/profile";
 
 export default function Home() {
   return (
     <main className="flex flex-col">
-      <MainHeader />
-      <Skills />
-      <Education />
-      <SocialMedia />
+      <Profile />
+      <Content />
     </main>
   );
 }
