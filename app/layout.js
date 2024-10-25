@@ -1,10 +1,13 @@
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
+import MainHeader from "@/components/main-header";
+import Footer from "@/components/footer";
 
-const inter = Inter({
-  subsets: ["latin"],
-  weights: ["400"],
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
 });
 
 export const metadata = {
@@ -59,9 +62,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={inter.className}>
-      <body className="absolute inset-0 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
-        {children}
+    <html lang="en" className={geistMono.className}>
+      <body className="flex flex-col items-center min-h-screen bg-gradient-to-br from-pink-100 via-white to-blue-100 p-4 sm:p-10">
+        <main className="sm:w-3/4 md:w-2/4 flex-grow">
+          <MainHeader />
+          <div className="sm:px-0 px-12">{children}</div>
+        </main>
+        <Footer className="mt-auto" />
         <Analytics />
       </body>
     </html>
