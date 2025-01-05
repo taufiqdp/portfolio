@@ -1,8 +1,9 @@
-import { ImageResponse } from 'next/og'
+import React from "react";
+import { ImageResponse } from "next/og";
 
 export function GET(request: Request) {
-  let url = new URL(request.url)
-  let title = url.searchParams.get('title') || 'Next.js Portfolio Starter'
+  let url = new URL(request.url);
+  let title = url.searchParams.get("title") || "Taufiq Dwi Purnomo";
 
   return new ImageResponse(
     (
@@ -18,5 +19,5 @@ export function GET(request: Request) {
       width: 1200,
       height: 630,
     }
-  )
+  );
 }
