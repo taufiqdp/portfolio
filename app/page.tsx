@@ -1,7 +1,8 @@
-import { BlogPosts } from "app/components/posts";
+import { BlogPosts } from "./components/posts";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import React from "react";
 
 export default function Page() {
   return (
