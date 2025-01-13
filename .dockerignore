@@ -1,0 +1,54 @@
+# Node Modules
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Next.js Build Artifacts
+.next
+out
+build
+
+# Environment Variables (Important for Security)
+.env
+.env.*
+*.local
+
+# Git Files
+.git
+.gitignore
+
+# Logs and Debug Files
+*.log
+*.debug
+*.dmp
+
+# System Files and Folders
+.DS_Store
+Thumbs.db
+
+# Editor / IDE Config Files
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+*.vssscc
+
+# Optional: Coverage Report
+coverage
+
+# Optional: Test Results
+test-results
+
+# Optional: Uploaded Assets
+public/uploads
+
+# Optional: Cache Directories
+.cache
+
+# Optional: Specific Files
+package-lock.json
+yarn.lock
