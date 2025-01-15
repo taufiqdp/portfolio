@@ -6,7 +6,10 @@ export default function NotFound() {
       <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
         404 - Page Not Found
       </h1>
-      <p className="mb-4">Alamak 😱😱, ga ada apa apa cuy di sini</p>
+      <img
+        src="https://c.tenor.com/uqDNFL83d7cAAAAd/tenor.gif"
+        alt="Not Found GIF"
+      />
     </section>
   );
 }
