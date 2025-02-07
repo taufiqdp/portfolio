@@ -27,14 +27,14 @@ export default function Page() {
         <Link
           href="https://github.com/taufiqdp"
           target="_blank"
-          className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200"
+          className="transition-all hover:text-neutral-800"
         >
           <FaGithub size={24} />
         </Link>
         <Link
           href="https://www.linkedin.com/in/taufiqdp/"
           target="_blank"
-          className="ml-4 transition-all hover:text-neutral-800 dark:hover:text-neutral-200"
+          className="ml-4 transition-all hover:text-neutral-800"
         >
           <FaLinkedin size={24} />
         </Link>

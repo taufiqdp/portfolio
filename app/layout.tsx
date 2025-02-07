@@ -9,7 +9,7 @@ import React from "react";
 export const metadata: Metadata = {
   title: "Taufiq Dwi Purnomo",
   description:
-    "Taufiq Dwi Purnomo: Experienced Machine Learning Engineer and Web Developer specializing in AI and web applications. View my projects and skills.",
+    "Taufiq Dwi Purnomo: Experienced Machine Learning Engineer and Web Developer specializing in AI and web applications.",
   keywords:
     "Machine Learning, Web Development, AI, Portfolio, Taufiq Dwi Purnomo",
   authors: [
@@ -58,12 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={cx(
-        `text-black bg-white dark:text-white dark:bg-black font-sans`
-      )}
-    >
+    <html lang="en" className={cx(`text-black bg-white font-sans`)}>
       <head>
         <script
           type="application/ld+json"
