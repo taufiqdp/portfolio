@@ -58,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cx(`text-black bg-white font-sans`)}>
+    <html lang="en" className={cx(`text-black bg-[#fbfbfb] font-sans`)}>
       <head>
         <script
           type="application/ld+json"
@@ -86,7 +86,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased max-w-xl mx-4 mt-4 lg:mt-8 sm:mx-auto">
+      <body className="antialiased max-w-3xl mx-4 mt-4 lg:mt-8 sm:mx-auto">
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
           <Navbar />
           {children}
