@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "../../components/mdx";
 import { formatDate, getBlogPosts } from "../utils";
 import { baseUrl } from "../../sitemap";
+import Link from "next/link";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi"; // Import icons
 
 export async function generateStaticParams() {
   let posts = getBlogPosts();
@@ -56,11 +58,30 @@ export async function generateMetadata({ params }) {
 
 export default async function Blog({ params }) {
   const { slug } = await params;
-  let post = getBlogPosts().find((post) => post.slug === slug);
+  let posts = getBlogPosts();
+  let post = posts.find((post) => post.slug === slug);
 
   if (!post) {
     notFound();
   } else {
+    // Sort posts by published date (newest first)
+    posts.sort(
+      (a, b) =>
+        new Date(b.metadata.publishedAt).getTime() -
+        new Date(a.metadata.publishedAt).getTime()
+    );
+
+    // Find the index of the current post in the sorted array
+    const currentIndex = posts.findIndex((p) => p.slug === post.slug);
+
+    // Calculate the indices for previous and next posts
+    const prevIndex = currentIndex + 1;
+    const nextIndex = currentIndex - 1;
+
+    // Get the previous and next posts, handling boundary conditions
+    const prevPost = prevIndex < posts.length ? posts[prevIndex] : null;
+    const nextPost = nextIndex >= 0 ? posts[nextIndex] : null;
+
     return (
       <section>
         <script
@@ -96,6 +117,26 @@ export default async function Blog({ params }) {
         <article className="prose">
           <CustomMDX source={post.content} />
         </article>
+        <div className="flex justify-between mt-12 items-center">
+          {prevPost && (
+            <Link
+              href={`/blog/${prevPost.slug}`}
+              className="text-neutral-600 hover:text-neutral-800 hover:underline hover:underline-offset-2 flex items-center"
+            >
+              <FiChevronLeft className="mr-2" size={20} />
+              <span>previous</span>
+            </Link>
+          )}
+          {nextPost && (
+            <Link
+              href={`/blog/${nextPost.slug}`}
+              className="text-neutral-600 hover:text-neutral-800 hover:underline hover:underline-offset-2 flex items-center ml-auto"
+            >
+              <span>next</span>
+              <FiChevronRight className="ml-2" size={20} />
+            </Link>
+          )}
+        </div>
       </section>
     );
   }
