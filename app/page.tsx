@@ -1,7 +1,4 @@
 import { BlogPosts } from "./components/posts";
-import Link from "next/link";
-import { FaGithub } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
 import React from "react";
 
 export default function Page() {
@@ -18,27 +15,8 @@ export default function Page() {
         </h1>
       </div>
       <p className="mb-4">
-        {`I am a passionate machine learning engineer and web developer with a strong
-        background in artificial intelligence technologies and full-stack
-        development.`}
+        {`I am a machine learning engineer and web developer who enjoys working with AI 🤗.`}
       </p>
-
-      <div className="flex mb-12">
-        <Link
-          href="https://github.com/taufiqdp"
-          target="_blank"
-          className="transition-all hover:text-neutral-800"
-        >
-          <FaGithub size={24} />
-        </Link>
-        <Link
-          href="https://www.linkedin.com/in/taufiqdp/"
-          target="_blank"
-          className="ml-4 transition-all hover:text-neutral-800"
-        >
-          <FaLinkedin size={24} />
-        </Link>
-      </div>
 
       <div className="my-10">
         <BlogPosts />
