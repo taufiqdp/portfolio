@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { SiHuggingface } from "react-icons/si";
 
 function ArrowIcon() {
   return (
@@ -33,32 +35,36 @@ export default function Footer() {
             <p className="ml-2 h-7">rss</p>
           </Link>
         </li>
-        <li>
-          <Link
-            className="flex items-center transition-all hover:text-neutral-800"
-            rel="noopener noreferrer"
-            target="_blank"
-            href="https://github.com/taufiqdp/portfolio"
-          >
-            <ArrowIcon />
-            <p className="ml-2 h-7">github</p>
-          </Link>
-        </li>
-        <li>
-          <Link
-            className="flex items-center transition-all hover:text-neutral-800"
-            rel="noopener noreferrer"
-            target="_blank"
-            href="https://bsky.app/profile/taufiqdp.com"
-          >
-            <ArrowIcon />
-            <p className="ml-2 h-7">bluesky</p>
-          </Link>
-        </li>
       </ul>
-      <p className="mt-8 text-neutral-600">
-        copyright © {new Date().getFullYear()}
-      </p>
+      <div className="flex justify-between items-center mt-8 text-neutral-600">
+        <p>copyright © {new Date().getFullYear()}</p>
+        <div className="flex space-x-4">
+          <Link
+            href="https://github.com/taufiqdp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center hover:text-black"
+          >
+            <FaGithub className="mr-1" size={20} />
+          </Link>
+          <Link
+            href="https://linkedin.com/in/taufiqdp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center hover:text-black"
+          >
+            <FaLinkedin className="mr-1" size={20} />
+          </Link>
+          <Link
+            href="https://huggingface.co/taufiqdp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center hover:text-black"
+          >
+            <SiHuggingface className="mr-1" size={20} />
+          </Link>
+        </div>
+      </div>
     </footer>
   );
 }
