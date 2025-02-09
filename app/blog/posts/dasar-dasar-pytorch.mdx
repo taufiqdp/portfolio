@@ -1,0 +1,368 @@
+---
+title: "Dasar-Dasar PyTorch"
+publishedAt: "2025-02-09"
+summary: "Panduan untuk memahami PyTorch dan penggunaan tensor sebagai fondasi dalam membangun model deep learning."
+---
+
+Deep learning telah menjadi teknologi yang sangat penting dalam perkembangan kecerdasan buatan (AI).
+Untuk memulai perjalanan dalam deep learning, kita membutuhkan alat yang tepat.
+Salah satu library yang paling populer dan banyak digunakan oleh peneliti adalah library PyTorch.
+Dalam artikel ini, kita akan mempelajari dasar-dasar PyTorch dan bagaimana menggunakannya.
+Jadi mari kita mulai!
+
+## Apa itu PyTorch?
+
+Menurut artikel dari NVIDIA, Pytorch merupakan library untuk membangun model deep learning.
+Pytorch mampu memanfaatkan akselerasi dari GPU (Graphics Processing Unit) untuk mempercepat proses pelatihan model.
+Deep learning sendiri merupakan salah satu cabang dari machine learning yang umum digunakan dalam aplikasi seperti Computer Vision dan Natural Language Processing.
+
+## Mengapa Menggunakan PyTorch?
+
+Mungkin pertanyaan yang muncul adalah mengapa kita harus menggunakan PyTorch? Kenapa tidak menggunakan library lain seperti TensorFlow?
+
+Meskipun kedua library tersebut memiliki fungsi yang sama, PyTorch lebih ideal untuk penelitian dan proyek yang mengutamakan fleksibilitas dan eksperimen.
+Sementara itu, TensorFlow lebih unggul dalam lingkungan produksi yang membutuhkan kestabilan dan skalabilitas.
+
+<figure>
+  <Image
+    src="/blog/pwctrends.png"
+    alt="PyTorch vs TensorFlow"
+    height="600"
+    width="1500"
+  />
+  <figcaption>
+    Perbandingan penggunaan PyTorch dengan library deep learning lainnya.
+  </figcaption>
+</figure>
+
+Berdasarkan tren dari [Paperwithcode](https://paperswithcode.com/trends), PyTorch lebih banyak digunakan dalam penelitian dibandingkan TensorFlow dan library deep learning lainnya.
+
+Selain itu perusahaan besar seperti [Meta](https://ai.meta.com/blog/pytorch-builds-the-future-of-ai-and-machine-learning-at-facebook/),
+[Tesla](https://www.youtube.com/watch?v=oBklltKXtDE), dan [OpenAI](https://openai.com/index/openai-pytorch/)
+juga menggunakan PyTorch dalam pengembangan produk-produk mereka.
+
+## Instalasi PyTorch
+
+Sebelum menggunakan PyTorch, pastikan Kamu sudah menginstal [Python](https://www.python.org/downloads/).
+
+Selanjutnya, Kamu bisa menginstal PyTorch dengan cara:
+
+1. Kunjungi [halaman instalasi PyTorch](https://pytorch.org/get-started/locally/) pada bagain **Start Locally** dan pilih opsi yang sesuai dengan sistem operasi dan spesifikasi hardware Kamu.
+
+   <figure>
+     <Image
+       src="/blog/install-pytorch.png"
+       alt="Install PyTorch"
+       height="600"
+       width="1500"
+     />
+     <figcaption>Halaman instalasi PyTorch.</figcaption>
+   </figure>
+
+   Kemudian jalankan perintah yang diberikan. Seperti misalnya contoh di bawah ini:
+
+   ```bash
+   pip3 install torch torchvision torchaudio \
+   --index-url https://download.pytorch.org/whl/cu126
+   ```
+
+2. Setelah proses instalasi selesai, coba jalankan kode berikut untuk memastikan PyTorch sudah terinstal dengan benar:
+
+   ```python
+   import torch
+
+   print(torch.__version__)  # Output: 2.6.0+cu126
+   ```
+
+   Jika tidak ada error, maka PyTorch sudah terinstal dengan benar.
+
+   **Note:** Output versi PyTorch bisa berbeda tergantung versi yang Kamu instal.
+
+Atau jika Kamu tidak ingin menginstal PyTorch secara lokal,
+alternatif lainnya adalah menggunakan [Google Colab](https://colab.research.google.com/)
+atau [Kaggle](https://www.kaggle.com/code) yang sudah menyediakan PyTorch dan library deep learning lainnya yang sudah terinstal.
+
+## Pytorch Tensor
+
+Setelah PyTorch terinstal, sekarang kita akan belajar tentang tensor.
+Tensor merupakan struktur data dalam bentuk multi-dimensi matriks yang digunakan untuk menyimpan data dalam bentuk array.
+Jika kamu sudah familiar dengan NumPy, maka konsep tensor di PyTorch hampir sama dengan ndarray di NumPy.
+Namun tensor memiliki keunggulan yaitu dapat memanfaatkan GPU untuk akselerasi komputasi.
+
+Tensor dapat diilustrasikan sebagai berikut:
+
+<figure>
+  <Image
+    src="/blog/scalar-vector-matrix-tensor.png"
+    alt="Tensor"
+    height="800"
+    width="1200"
+  />
+  <figcaption>Ilustrasi tensor.</figcaption>
+</figure>
+
+**Scalar** adalah tensor dengan 0 dimensi,
+**Vector** adalah tensor dengan 1 dimensi,
+**Matrix** adalah tensor dengan 2 dimensi,
+dan **Tensor** adalah tensor dengan dimensi lebih dari 2.
+
+## Inisialisasi Tensor
+
+Pada bagian ini kita akan belajar beberapa cara untuk menginisialisasi tensor di PyTorch.
+
+1. Inisialisasi tensor dengan list python:
+
+   ```python
+   import torch
+
+   tensor = torch.tensor([[1, 2], [3, 4]])
+   print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[1, 2],
+          [3, 4]])
+   ```
+
+2. Inisialisasi tensor dengan nilai nol:
+
+   ```python
+    tensor = torch.zeros(2, 2)
+    print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[0., 0.],
+           [0., 0.]])
+   ```
+
+   **Note:** nilai (2, 2) menunjukkan ukuran tensor yaitu 2 baris dan 2 kolom. Ukuran tensor bisa disesuaikan dengan kebutuhan.
+
+3. Inisialisasi tensor dengan nilai satu:
+
+   ```python
+    tensor = torch.ones(2, 2)
+    print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[1., 1.],
+           [1., 1.]])
+   ```
+
+4. Inisialisasi tensor dengan nilai acak di antara 0 dan 1:
+
+   ```python
+    tensor = torch.rand(2, 2)
+    print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[0.1234, 0.2345],
+           [0.3456, 0.4567]])
+   ```
+
+5. Inisialisasi tensor dengan nilai acak dari distribusi normal:
+
+   ```python
+    tensor = torch.randn(2, 2)
+    print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[ 0.1234, -0.2345],
+           [ 0.3456,  0.4567]])
+   ```
+
+6. Inisialisasi tensor di antara misalnya 5 dan 10 (namun tidak termasuk 10):
+
+   ```python
+    tensor = torch.randint(low=5, high=10, size=(2, 2))
+    print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[7, 8],
+           [6, 5]])
+   ```
+
+7. Inisialisasi tensor dengan nilai yang sama:
+
+   ```python
+    tensor = torch.full((2, 2), 5)
+    print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[5, 5],
+           [5, 5]])
+   ```
+
+Nah sekarang Kamu sudah tahu beberapa cara untuk menginisialisasi tensor di PyTorch.
+Selanjutnya kita akan belajar tentang operasi tensor.
+
+## Operasi Tensor
+
+Pada bagian ini kita akan belajar berbagai operasi tensor di PyTorch.
+Mirip seperti NumPy, PyTorch juga mendukung berbagai operasi tensor seperti penjumlahan, pengurangan, perkalian, dan lainnya.
+
+1. Penjumlahan tensor:
+
+   ```python
+    tensor1 = torch.tensor([[1, 2], [3, 4]])
+    tensor2 = torch.tensor([[5, 6], [7, 8]])
+
+    tensor = tensor1 + tensor2
+    print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[ 6,  8],
+           [10, 12]])
+   ```
+
+2. Pengurangan tensor:
+
+   ```python
+    tensor1 = torch.tensor([[1, 2], [3, 4]])
+    tensor2 = torch.tensor([[5, 6], [7, 8]])
+
+    tensor = tensor1 - tensor2
+    print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[-4, -4],
+           [-4, -4]])
+   ```
+
+3. Perkalian tensor:
+
+   ```python
+     tensor1 = torch.tensor([[1, 2], [3, 4]])
+     tensor2 = torch.tensor([[5, 6], [7, 8]])
+
+     tensor = tensor1 * tensor2
+     print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[ 5, 12],
+           [21, 32]])
+   ```
+
+4. Pembagian tensor:
+
+   ```python
+     tensor1 = torch.tensor([[1, 2], [3, 4]])
+     tensor2 = torch.tensor([[5, 6], [7, 8]])
+
+     tensor = tensor1 / tensor2
+     print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[0.2000, 0.3333],
+           [0.4286, 0.5000]])
+   ```
+
+5. Transpose tensor:
+
+   ```python
+     tensor = torch.tensor([[1, 2], [3, 4]])
+     tensor = tensor.T
+     print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[1, 3],
+           [2, 4]])
+   ```
+
+6. Reshape tensor:
+
+   ```python
+     tensor = torch.tensor([[1, 2], [3, 4]])
+     tensor = tensor.view(1, 4)
+     print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[1, 2, 3, 4]])
+   ```
+
+7. Concatenate tensor:
+
+   ```python
+     tensor1 = torch.tensor([[1, 2], [3, 4]])
+     tensor2 = torch.tensor([[5, 6], [7, 8]])
+
+     tensor = torch.cat((tensor1, tensor2), dim=0)
+     print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[1, 2],
+           [3, 4],
+           [5, 6],
+           [7, 8]])
+   ```
+
+8. Matriks dot product:
+
+   ```python
+     tensor1 = torch.tensor([[1, 2], [3, 4]])
+     tensor2 = torch.tensor([[5, 6], [7, 8]])
+
+     tensor = torch.mm(tensor1, tensor2)
+     print(tensor)
+   ```
+
+   Output:
+
+   ```
+   tensor([[19, 22],
+           [43, 50]])
+   ```
+
+Nah itulah beberapa operasi tensor yang bisa Kamu gunakan di PyTorch.
+
+## Apa Selanjutnya?
+
+Dalam artikel ini, kita telah mempelajari dasar-dasar PyTorch dan penggunaannya.
+Pada artikel selanjutnya kita akan belajar tentang bagaimana membangun model deep learning menggunakan PyTorch.
+
+## Referensi
+
+- https://www.nvidia.com/en-us/glossary/pytorch/
+- https://builtin.com/data-science/pytorch-vs-tensorflow/
+- https://www.learnpytorch.io/00_pytorch_fundamentals/
+- https://paperswithcode.com/trends/
