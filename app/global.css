@@ -96,7 +96,9 @@ html {
 }
 
 .prose ul {
-  @apply list-disc pl-6;
+  @apply list-disc pl-6 overflow-x-hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .prose ol {
