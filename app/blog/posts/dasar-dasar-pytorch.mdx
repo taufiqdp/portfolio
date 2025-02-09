@@ -223,11 +223,11 @@ Mirip seperti NumPy, PyTorch juga mendukung berbagai operasi tensor seperti penj
 1. Penjumlahan tensor:
 
    ```python
-    tensor1 = torch.tensor([[1, 2], [3, 4]])
-    tensor2 = torch.tensor([[5, 6], [7, 8]])
+   tensor1 = torch.tensor([[1, 2], [3, 4]])
+   tensor2 = torch.tensor([[5, 6], [7, 8]])
 
-    tensor = tensor1 + tensor2
-    print(tensor)
+   tensor = tensor1 + tensor2
+   print(tensor)
    ```
 
    Output:
@@ -240,11 +240,11 @@ Mirip seperti NumPy, PyTorch juga mendukung berbagai operasi tensor seperti penj
 2. Pengurangan tensor:
 
    ```python
-    tensor1 = torch.tensor([[1, 2], [3, 4]])
-    tensor2 = torch.tensor([[5, 6], [7, 8]])
+   tensor1 = torch.tensor([[1, 2], [3, 4]])
+   tensor2 = torch.tensor([[5, 6], [7, 8]])
 
-    tensor = tensor1 - tensor2
-    print(tensor)
+   tensor = tensor1 - tensor2
+   print(tensor)
    ```
 
    Output:
@@ -257,11 +257,11 @@ Mirip seperti NumPy, PyTorch juga mendukung berbagai operasi tensor seperti penj
 3. Perkalian tensor:
 
    ```python
-     tensor1 = torch.tensor([[1, 2], [3, 4]])
-     tensor2 = torch.tensor([[5, 6], [7, 8]])
+   tensor1 = torch.tensor([[1, 2], [3, 4]])
+   tensor2 = torch.tensor([[5, 6], [7, 8]])
 
-     tensor = tensor1 * tensor2
-     print(tensor)
+   tensor = tensor1 * tensor2
+   print(tensor)
    ```
 
    Output:
@@ -274,11 +274,11 @@ Mirip seperti NumPy, PyTorch juga mendukung berbagai operasi tensor seperti penj
 4. Pembagian tensor:
 
    ```python
-     tensor1 = torch.tensor([[1, 2], [3, 4]])
-     tensor2 = torch.tensor([[5, 6], [7, 8]])
+   tensor1 = torch.tensor([[1, 2], [3, 4]])
+   tensor2 = torch.tensor([[5, 6], [7, 8]])
 
-     tensor = tensor1 / tensor2
-     print(tensor)
+   tensor = tensor1 / tensor2
+   print(tensor)
    ```
 
    Output:
@@ -291,9 +291,9 @@ Mirip seperti NumPy, PyTorch juga mendukung berbagai operasi tensor seperti penj
 5. Transpose tensor:
 
    ```python
-     tensor = torch.tensor([[1, 2], [3, 4]])
-     tensor = tensor.T
-     print(tensor)
+   tensor = torch.tensor([[1, 2], [3, 4]])
+   tensor = tensor.T
+   print(tensor)
    ```
 
    Output:
@@ -306,9 +306,9 @@ Mirip seperti NumPy, PyTorch juga mendukung berbagai operasi tensor seperti penj
 6. Reshape tensor:
 
    ```python
-     tensor = torch.tensor([[1, 2], [3, 4]])
-     tensor = tensor.view(1, 4)
-     print(tensor)
+   tensor = torch.tensor([[1, 2], [3, 4]])
+   tensor = tensor.view(1, 4)
+   print(tensor)
    ```
 
    Output:
@@ -320,11 +320,11 @@ Mirip seperti NumPy, PyTorch juga mendukung berbagai operasi tensor seperti penj
 7. Concatenate tensor:
 
    ```python
-     tensor1 = torch.tensor([[1, 2], [3, 4]])
-     tensor2 = torch.tensor([[5, 6], [7, 8]])
+   tensor1 = torch.tensor([[1, 2], [3, 4]])
+   tensor2 = torch.tensor([[5, 6], [7, 8]])
 
-     tensor = torch.cat((tensor1, tensor2), dim=0)
-     print(tensor)
+   tensor = torch.cat((tensor1, tensor2), dim=0)
+   print(tensor)
    ```
 
    Output:
@@ -339,11 +339,13 @@ Mirip seperti NumPy, PyTorch juga mendukung berbagai operasi tensor seperti penj
 8. Matriks dot product:
 
    ```python
-     tensor1 = torch.tensor([[1, 2], [3, 4]])
-     tensor2 = torch.tensor([[5, 6], [7, 8]])
+   tensor1 = torch.tensor([[1, 2], [3, 4]])
+   tensor2 = torch.tensor([[5, 6], [7, 8]])
 
-     tensor = torch.mm(tensor1, tensor2)
-     print(tensor)
+   tensor = torch.mm(tensor1, tensor2)
+   # atau bisa juga menggunakan @
+   # tensor = tensor1 @ tensor2
+   print(tensor)
    ```
 
    Output:
