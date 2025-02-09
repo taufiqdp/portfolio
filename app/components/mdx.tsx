@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { highlight } from "sugar-high";
 import React from "react";
 import { CopyButton } from "./copy-button";
+import hljs from "highlight.js";
 
 function Table({ data }) {
   let headers = data.headers.map((header, index) => (
@@ -49,13 +49,13 @@ function RoundedImage(props) {
   return <Image alt={props.alt} className="rounded-lg" {...props} />;
 }
 
-function Code({ children, ...props }) {
-  let codeHTML = highlight(children);
+function Code({ children, language = "python", ...props }) {
+  const highlightedCode = hljs.highlight(children, { language }).value;
 
   return (
     <div className="relative group">
       <CopyButton text={children} />
-      <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
+      <code dangerouslySetInnerHTML={{ __html: highlightedCode }} {...props} />
     </div>
   );
 }
