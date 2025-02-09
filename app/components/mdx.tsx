@@ -93,6 +93,10 @@ function createHeading(level) {
   return Heading;
 }
 
+function Figure({ children }) {
+  return <figure>{children}</figure>;
+}
+
 let components = {
   h1: createHeading(1),
   h2: createHeading(2),
@@ -104,6 +108,10 @@ let components = {
   a: CustomLink,
   code: Code,
   Table,
+  figure: Figure,
+  figcaption: (props) => (
+    <figcaption className="text-center text-sm text-gray-500 mt-2" {...props} />
+  ),
 };
 
 export function CustomMDX(props) {
