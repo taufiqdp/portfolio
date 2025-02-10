@@ -1,7 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { SiHuggingface } from "react-icons/si";
 
 function ArrowIcon() {
   return (
@@ -22,11 +20,11 @@ function ArrowIcon() {
 
 export default function Footer() {
   return (
-    <footer className="mb-16">
+    <footer className="mb-8 md:mb-16">
       <ul className="font-sm mt-12 flex flex-col space-x-0 space-y-2 text-neutral-600 md:flex-row md:space-x-4 md:space-y-0">
         <li>
           <Link
-            className="flex items-center transition-all hover:text-neutral-800"
+            className="flex items-center transition-all hover:text-black hover:underline hover:underline-offset-2"
             rel="noopener noreferrer"
             target="_blank"
             href="/rss"
@@ -38,32 +36,6 @@ export default function Footer() {
       </ul>
       <div className="flex justify-between items-center mt-8 text-neutral-600">
         <p>copyright © {new Date().getFullYear()}</p>
-        <div className="flex space-x-4">
-          <Link
-            href="https://github.com/taufiqdp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center hover:text-black"
-          >
-            <FaGithub className="mr-1" size={20} />
-          </Link>
-          <Link
-            href="https://linkedin.com/in/taufiqdp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center hover:text-black"
-          >
-            <FaLinkedin className="mr-1" size={20} />
-          </Link>
-          <Link
-            href="https://huggingface.co/taufiqdp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center hover:text-black"
-          >
-            <SiHuggingface className="mr-1" size={20} />
-          </Link>
-        </div>
       </div>
     </footer>
   );
