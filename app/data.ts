@@ -1,3 +1,6 @@
+import { FaBluesky, FaGithub, FaLinkedin, FaSpotify } from "react-icons/fa6";
+import { SiHuggingface, SiLetterboxd } from "react-icons/si";
+
 // Personal content for the home page. Each section stays hidden until its
 // list has at least one entry.
 
@@ -29,13 +32,58 @@ export const captions: Record<string, string> = {
 
 // Music (the On repeat section and the now-playing bar) comes from Last.fm; see app/music.ts.
 
+// Favourite films and games, four of each. poster is a file in public/favourites/;
+// leave it out and a halftone block stands in. href is optional too.
+export type Favourite = { title: string; year?: number; poster?: string; href?: string };
+
+export const letterboxdUrl = "https://letterboxd.com/taufiqdp/";
+
+// The Letterboxd top four, kept in step by hand: Letterboxd has no public API.
+export const films: Favourite[] = [
+  {
+    title: "The Florida Project",
+    year: 2017,
+    poster: "/favourites/the-florida-project.jpg",
+    href: "https://letterboxd.com/film/the-florida-project/",
+  },
+  {
+    title: "The Apartment",
+    year: 1960,
+    poster: "/favourites/the-apartment.jpg",
+    href: "https://letterboxd.com/film/the-apartment/",
+  },
+  {
+    title: "Room",
+    year: 2015,
+    poster: "/favourites/room.jpg",
+    href: "https://letterboxd.com/film/room-2015/",
+  },
+  {
+    title: "Some Like It Hot",
+    year: 1959,
+    poster: "/favourites/some-like-it-hot.jpg",
+    href: "https://letterboxd.com/film/some-like-it-hot/",
+  },
+];
+
+// ponytail: placeholders until the real four are picked. Covers are cropped to 3:4.
+export const games: Favourite[] = [
+  { title: "Empty slot" },
+  { title: "Empty slot" },
+  { title: "Empty slot" },
+  { title: "Empty slot" },
+];
+
 export const hobbies: { name: string; note: string }[] = [
   // { name: "Photography", note: "Walking around town with a camera." },
 ];
 
+// Shown as icons under the name and spelled out in Say hi.
 export const links = [
-  { name: "GitHub", href: "https://github.com/taufiqdp" },
-  { name: "LinkedIn", href: "https://linkedin.com/in/taufiqdp" },
-  { name: "Hugging Face", href: "https://huggingface.co/taufiqdp" },
-  { name: "Bluesky", href: "https://bsky.app/profile/taufiqdp.com" },
+  { name: "GitHub", href: "https://github.com/taufiqdp", icon: FaGithub },
+  { name: "LinkedIn", href: "https://linkedin.com/in/taufiqdp", icon: FaLinkedin },
+  { name: "Hugging Face", href: "https://huggingface.co/taufiqdp", icon: SiHuggingface },
+  { name: "Bluesky", href: "https://bsky.app/profile/taufiqdp.com", icon: FaBluesky },
+  { name: "Letterboxd", href: letterboxdUrl, icon: SiLetterboxd },
+  { name: "Spotify", href: "https://open.spotify.com/user/2qnyyb7sw3va7ohd7yqg3zqs6", icon: FaSpotify },
 ];

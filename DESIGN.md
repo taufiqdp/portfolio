@@ -211,7 +211,7 @@ and `pop`. Never hard-code a hex value in a component; use the tokens so the ink
 - **Ink / Primary (#3255A4, Medium Blue):** all text, headings, the name, outlines, the
   now-playing bar background, the dots of the halftone. 6.4:1 on paper.
 - **Pop / Secondary (#FF6C2F, Orange):** accents only: section divider rules, link underlines,
-  the halftone ground, the equalizer bars, the photo placeholder. It is never used for text on
+  the halftone ground, the equalizer bars, the photo placeholder, the cartridge grip ridges. It is never used for text on
   paper or for small text on ink (2.5:1 on Medium Blue).
 - **Paper / Neutral (#F4F4F1):** the page ground and the text colour on ink surfaces.
 - **Scrim (#000000 at 85%):** behind an opened photo.
@@ -253,7 +253,8 @@ the width and weight extremes, not from a second typeface.
 - Page width is capped at 1440px, with side margins of 16px (phones), 24px and 40px (desktop).
 - From 768px up, the home page is **two columns**. The left column is a sticky masthead: the
   3:2 header photo (max 50% of the viewport height) with the name overlapping its bottom edge
-  by 0.6em, then the "AI engineer" tagline. The right column scrolls through the sections.
+  by 0.6em, then the "AI engineer" tagline with the social icons on the same line. The right
+  column scrolls through the sections.
   Below 768px everything stacks in one column and the masthead is not sticky.
 - Sections are separated by a 2px pop-coloured rule, with 48px above it and 36px below. The
   first section has no rule.
@@ -286,22 +287,33 @@ Print has square corners.
 ## Components
 
 - **Section heading:** display type in ink, 24px below. Sections that have no content (for
-  example hobbies) are hidden entirely, including their nav link.
+  example hobbies) are hidden entirely.
+- **Navigation:** pages only (Home, Writing, Gallery), not anchors to home page sections.
+- **Social icons:** beside the tagline (wrapping under it on narrow columns), 22px ink icons 16px
+  apart, no text; each link carries its name as `aria-label` and a tooltip. Hover or keyboard
+  focus shows a 2px pop underline. Say hi lists the same links as words. The masthead must clear
+  the now-playing bar on short laptop screens (1366x768), which is why the icons share a line.
 - **Links:** ink text with a 2px pop underline offset 4px (`ink-link`). Navigation shows the
   underline on hover only.
 - **Header photo:** a fixed photo (`HERO_KEY` in `app/page.tsx`), centre-cropped to 3:2, original
-  colours, over the halftone while it loads.
+  colours, over the halftone while it loads. A strong film grain (`grain`: fine grey noise,
+  overlay blend, 60%) sits on top; it adds texture, never a tint.
 - **Halftone placeholder:** ink dots (14px grid) on pop, fading out diagonally. Used wherever a
   photo or cover is still loading or missing, and pulsed gently as a loading state (respecting
   reduced motion).
 - **Gallery thumbnail and photo dialog:** square-cornered thumbnails compressed by `next/image`;
   clicking opens a native `<dialog>` with the large version, a scrim and a Close button. Esc or a
   click outside closes it.
-- **List rows** (experience, on repeat, posts): left-aligned, display-type title, a regular-weight
+- **List rows** (experience, on repeat, recently watched, posts): left-aligned, display-type title, a regular-weight
   line under it; numbers such as dates and play counts use tabular figures.
 - **Now-playing bar:** solid ink bar with paper text; three pop equalizer bars that bounce only
   while a song is playing; "Now playing" / "Last played", cover, title, artist and "Listen on
   Spotify". The whole bar is one link.
+- **Film strip** (Top four): film posters at 2:3 as frames of one ink 35mm strip, square
+  paper sprocket holes along both edges, 6px of ink between frames; title and year under each.
+- **Cartridge** (High scores): an ink shell with its top-right corner clipped and three pop grip
+  ridges, the game cover inset at 3:4 as its label; title under each. A missing cover shows the
+  halftone as the label.
 - **Ink switcher:** five two-dot swatches (ink + pop of each pair) in the header; the selected one
   gets a 2px ink ring.
 
@@ -319,5 +331,5 @@ Print has square corners.
 - Don't centre content blocks; keep the left edge strong.
 - Do give every photo real alt text (its caption when it has one) and keep visible keyboard focus.
 - Do respect `prefers-reduced-motion`: the equalizer and loading pulses stop.
-- Do credit outside data where it's shown: "via Last.fm" under On repeat, and Spotify links
-  with unmodified album art.
+- Do credit outside data where it's shown: "via Last.fm" under On repeat, a Letterboxd link
+  under Top four and Recently watched, and Spotify links with unmodified album art.

@@ -4,8 +4,10 @@ import { connection } from "next/server";
 import React, { Suspense } from "react";
 import { BlogPosts } from "./components/posts";
 import { Gallery } from "./components/gallery";
-import { experience, hobbies, links } from "./data";
+import { experience, films, games, hobbies, letterboxdUrl, links, type Favourite } from "./data";
 import { getOnRepeat, type RepeatTrack } from "./music";
+import { getRecentlyWatched, stars, type WatchedFilm } from "./letterboxd";
+import { formatDate } from "./blog/utils";
 import { BUCKET_URL, getPhotos, type Photo } from "./gallery/data";
 
 const facts = [
@@ -145,13 +147,108 @@ async function OnRepeat() {
   );
 }
 
-function OnRepeatLoading() {
+// Four across: films as frames of one film strip, games as cartridges. The title under each
+// names it, so the art itself has empty alt text, like the On repeat covers.
+function Favourites({ items, kind }: { items: Favourite[]; kind: "film" | "game" }) {
+  const film = kind === "film";
   return (
-    <Section id="music" title="On repeat">
-      <div aria-busy="true" aria-label="Loading songs" className="grid gap-4">
+    <ol className={`grid grid-cols-4 ${film ? "" : "gap-2"}`}>
+      {items.map((item, i) => {
+        const body = (
+          <>
+            <span className={film ? "film-frame" : "cartridge"}>
+              <span className={`halftone relative block overflow-hidden ${film ? "aspect-[2/3]" : "aspect-[3/4]"}`}>
+                {item.poster && (
+                  <Image
+                    src={item.poster}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 12vw, 25vw"
+                    className="object-cover"
+                  />
+                )}
+              </span>
+            </span>
+            <span className="mt-2 block px-1 text-sm leading-tight font-bold group-hover:ink-link">
+              {item.title}
+            </span>
+            {item.year && <span className="block px-1 text-[13px] tabular-nums">{item.year}</span>}
+          </>
+        );
+        return (
+          <li key={`${item.title}-${i}`}>
+            {item.href ? (
+              <a href={item.href} target="_blank" rel="noopener noreferrer" className="group block">
+                {body}
+              </a>
+            ) : (
+              body
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+// Latest entries from the Letterboxd diary, each linking to the entry there.
+async function RecentlyWatched() {
+  const diary = await getRecentlyWatched().catch((): WatchedFilm[] => []);
+  if (diary.length === 0) return null;
+
+  return (
+    <Section id="watched" title="Recently watched">
+      <ol className="grid gap-4">
+        {diary.map((film) => (
+          <li key={`${film.url}-${film.watched}`}>
+            <a
+              href={film.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-4"
+            >
+              {film.poster ? (
+                <img src={film.poster} alt="" className="h-18 w-12 shrink-0 bg-ink/10" />
+              ) : (
+                <span aria-hidden="true" className="halftone relative h-18 w-12 shrink-0" />
+              )}
+              <span className="min-w-0">
+                <b className="display block text-2xl leading-tight font-extrabold [font-stretch:80%] group-hover:ink-link">
+                  {film.title}
+                </b>
+                {film.year}
+                {film.watched && <> · watched {formatDate(film.watched)}</>}
+              </span>
+              {film.rating !== null && (
+                <span
+                  aria-label={`${film.rating} out of 5 stars`}
+                  className="ml-auto shrink-0 text-sm whitespace-nowrap"
+                >
+                  {stars(film.rating)}
+                </span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p className="mt-5 text-[13px]">
+        Latest from my diary, via{" "}
+        <a href={letterboxdUrl} target="_blank" rel="noopener noreferrer" className="ink-link font-bold">
+          Letterboxd
+        </a>
+      </p>
+    </Section>
+  );
+}
+
+// Halftone thumbnails and blank lines while a list loads.
+function RowsLoading({ id, title, label, thumb }: { id: string; title: string; label: string; thumb: string }) {
+  return (
+    <Section id={id} title={title}>
+      <div aria-busy="true" aria-label={label} className="grid gap-4">
         {[0, 1, 2, 3, 4].map((i) => (
           <div key={i} className="flex items-center gap-4">
-            <span className="halftone relative size-16 shrink-0 animate-pulse motion-reduce:animate-none" />
+            <span className={`halftone relative shrink-0 animate-pulse motion-reduce:animate-none ${thumb}`} />
             <span className="h-5 w-48 bg-ink/10" />
           </div>
         ))}
@@ -165,7 +262,7 @@ export default function Page() {
     <div className="grid gap-16 md:grid-cols-2 md:gap-[clamp(24px,5vw,72px)]">
       <div className="md:sticky md:top-5 md:self-start">
         {/* The fixed header photo, over a halftone that shows while it loads. */}
-        <div className="halftone relative aspect-[3/2] overflow-hidden md:max-h-[50vh]">
+        <div className="halftone grain relative aspect-[3/2] overflow-hidden md:max-h-[50vh]">
           <Image
             src={`${BUCKET_URL}/${HERO_KEY}`}
             alt="Clouds, photo by Taufiq"
@@ -182,7 +279,27 @@ export default function Page() {
           <br />
           Purnomo
         </h1>
-        <p className="mt-4 text-[15px] font-bold">AI engineer</p>
+        {/* Icons share the tagline's line so the sticky masthead still clears the
+            now-playing bar on short laptop screens; on narrow columns they wrap below. */}
+        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <p className="text-[15px] font-bold">AI engineer</p>
+          <ul className="flex flex-wrap gap-4">
+            {links.map(({ name, href, icon: Icon }) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={name}
+                  title={name}
+                  className="block border-b-2 border-transparent pb-1 text-[22px] hover:border-pop focus-visible:border-pop"
+                >
+                  <Icon aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div>
@@ -243,9 +360,31 @@ export default function Page() {
           <HomeGallery />
         </Suspense>
 
-        <Suspense fallback={<OnRepeatLoading />}>
+        <Suspense fallback={<RowsLoading id="music" title="On repeat" label="Loading songs" thumb="size-16" />}>
           <OnRepeat />
         </Suspense>
+
+        {films.length > 0 && (
+          <Section id="films" title="Top four">
+            <Favourites items={films} kind="film" />
+            <p className="mt-5 text-[13px]">
+              Favourite films, from{" "}
+              <a href={letterboxdUrl} target="_blank" rel="noopener noreferrer" className="ink-link font-bold">
+                Letterboxd
+              </a>
+            </p>
+          </Section>
+        )}
+
+        <Suspense fallback={<RowsLoading id="watched" title="Recently watched" label="Loading films" thumb="h-18 w-12" />}>
+          <RecentlyWatched />
+        </Suspense>
+
+        {games.length > 0 && (
+          <Section id="games" title="High scores">
+            <Favourites items={games} kind="game" />
+          </Section>
+        )}
 
         {hobbies.length > 0 && (
           <Section title="Off the clock">

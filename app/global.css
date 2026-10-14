@@ -40,6 +40,51 @@
     .eq.playing i { animation: none; }
   }
 
+  /* Film grain over a photo: fine grey noise with its contrast doubled, overlay-blended so it
+     adds texture, not a tint.
+     next/image's compression smooths out the photo's own grain; this puts it back. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: 0.6;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2' intercept='-.5'/%3E%3CfeFuncG type='linear' slope='2' intercept='-.5'/%3E%3CfeFuncB type='linear' slope='2' intercept='-.5'/%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Films: one frame of a 35mm strip, ink with paper sprocket holes along both edges.
+     Frames sit side by side with no gap; round fits whole holes, so the strip joins up. */
+  .film-frame { position: relative; display: block; background: var(--ink); padding: 18px 3px; }
+  .film-frame::before,
+  .film-frame::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    height: 6px;
+    background: linear-gradient(90deg, transparent 4px, var(--paper) 4px 12px, transparent 12px) 0 0 / 16px 100% round;
+  }
+  .film-frame::before { top: 6px; }
+  .film-frame::after { bottom: 6px; }
+
+  /* Games: a cartridge, an ink shell with a clipped corner and pop grip ridges; the cover is its label. */
+  .cartridge {
+    position: relative;
+    display: block;
+    background: var(--ink);
+    padding: 20px 7px 7px;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  }
+  .cartridge::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    right: 19px;
+    height: 10px;
+    background: repeating-linear-gradient(var(--pop) 0 2px, transparent 2px 4px);
+  }
+
   .display { font-weight: 900; font-stretch: 75%; text-transform: uppercase; line-height: 0.9; text-wrap: balance; }
 }
 
