@@ -69,8 +69,9 @@ export type Period = keyof typeof PERIODS;
 export type TopAlbum = { title: string; artist: string; plays: number; cover: string | null; url: string };
 export type TopArtist = { name: string; plays: number; image: string | null; url: string };
 
-// Top nine albums and top ten artists for a period, refreshed hourly. Artist photos come from
-// Spotify (Last.fm stopped serving them), and those artists link to Spotify, as its terms ask.
+// Top nine albums and top ten artists for a period, refreshed hourly. Albums link to Spotify.
+// Artist photos come from Spotify too (Last.fm stopped serving them), and those artists link
+// to Spotify, as its terms ask.
 export const getListening = unstable_cache(
   async (period: Period): Promise<{ albums: TopAlbum[]; artists: TopArtist[] }> => {
     const albumsUrl = lastFmUrl("user.gettopalbums", { period, limit: "9" });
@@ -89,13 +90,15 @@ export const getListening = unstable_cache(
       (await artistsRes.json())?.topartists?.artist ?? [];
 
     return {
-      albums: albums.map((album) => ({
-        title: album.name,
-        artist: album.artist.name,
-        plays: Number(album.playcount),
-        cover: lastFmCover(album.image),
-        url: album.url,
-      })),
+      albums: await Promise.all(
+        albums.map(async (album) => ({
+          title: album.name,
+          artist: album.artist.name,
+          plays: Number(album.playcount),
+          cover: lastFmCover(album.image),
+          url: await findAlbumOnSpotify(album.name, album.artist.name),
+        }))
+      ),
       artists: await Promise.all(
         artists.map(async (artist) => {
           const spotify = await findArtistOnSpotify(artist.name);
@@ -211,6 +214,31 @@ export async function getSpotifyNowPlaying(): Promise<Track | null> {
     playing: data.is_playing,
     spotifyUrl: item.external_urls.spotify,
   };
+}
+
+// The album on Spotify when the title and an artist match exactly; a Spotify search otherwise,
+// so a deluxe edition or a same-named album never gets linked by mistake.
+async function findAlbumOnSpotify(title: string, artist: string) {
+  const search = `https://open.spotify.com/search/${encodeURIComponent(`${title} ${artist}`)}`;
+  try {
+    const token = await getSpotifyToken();
+    if (!token) return search;
+    const res = await fetch(
+      `https://api.spotify.com/v1/search?type=album&limit=5&q=${encodeURIComponent(`${title} artist:${artist}`)}`,
+      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
+    );
+    if (!res.ok) return search;
+    const items: { name: string; artists: { name: string }[]; external_urls: { spotify: string } }[] =
+      (await res.json()).albums?.items ?? [];
+    const match = items.find(
+      (item) =>
+        normalize(item.name) === normalize(title) &&
+        item.artists.some((a) => normalize(a.name) === normalize(artist))
+    );
+    return match?.external_urls.spotify ?? search;
+  } catch {
+    return search;
+  }
 }
 
 // The artist's Spotify photo and page, only when the name matches exactly, so nobody gets the
