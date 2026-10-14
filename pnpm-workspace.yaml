@@ -1,0 +1,6 @@
+overrides:
+  mdast-util-to-hast@>=13.0.0 <13.2.1: ">=13.2.1"
+  postcss@<8.5.10: ">=8.5.10"
+  yaml@>=2.0.0 <2.8.3: ">=2.8.3"
+
+minimumReleaseAge: 4320

@@ -16,7 +16,8 @@ export function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={copyToClipboard}
-      className="absolute right-1 top-1 p-1 rounded bg-neutral-50 text-gray-500 hover:bg-gray-100 hover:text-gray-800 hover:cursor-pointer hidden sm:block"
+      aria-label={copied ? "Copied" : "Copy code"}
+      className="absolute right-1 top-1 p-1 rounded bg-paper text-ink/60 hover:text-ink hover:cursor-pointer hidden sm:block"
     >
       {copied ? <LuCopyCheck size={16} /> : <LuCopy size={16} />}
     </button>

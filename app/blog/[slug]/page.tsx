@@ -64,13 +64,6 @@ export default async function Blog({ params }) {
   if (!post) {
     notFound();
   } else {
-    // Sort posts by published date (newest first)
-    posts.sort(
-      (a, b) =>
-        new Date(b.metadata.publishedAt).getTime() -
-        new Date(a.metadata.publishedAt).getTime()
-    );
-
     // Find the index of the current post in the sorted array
     const currentIndex = posts.findIndex((p) => p.slug === post.slug);
 
@@ -106,22 +99,18 @@ export default async function Blog({ params }) {
             }),
           }}
         />
-        <h1 className="title font-semibold text-3xl tracking-tighter">
+        <p className="mt-10 text-sm">{formatDate(post.metadata.publishedAt)}</p>
+        <h1 className="display mt-2 max-w-4xl text-[length:clamp(40px,6vw,80px)]">
           {post.metadata.title}
         </h1>
-        <div className="flex justify-between items-center mt-4 mb-8 text-sm">
-          <p className="text-sm text-neutral-600">
-            {formatDate(post.metadata.publishedAt)}
-          </p>
-        </div>
-        <article className="prose">
+        <article className="prose mt-8">
           <CustomMDX source={post.content} />
         </article>
-        <div className="flex justify-between mt-12 items-center">
+        <div className="mt-12 flex max-w-[68ch] items-center justify-between border-t-2 border-pop pt-6 font-bold">
           {prevPost && (
             <Link
               href={`/blog/${prevPost.slug}`}
-              className="text-neutral-600 hover:text-neutral-800 hover:underline hover:underline-offset-2 flex items-center"
+              className="flex items-center hover:ink-link"
             >
               <FiChevronLeft className="mr-2" size={20} />
               <span>previous</span>
@@ -130,7 +119,7 @@ export default async function Blog({ params }) {
           {nextPost && (
             <Link
               href={`/blog/${nextPost.slug}`}
-              className="text-neutral-600 hover:text-neutral-800 hover:underline hover:underline-offset-2 flex items-center ml-auto"
+              className="ml-auto flex items-center hover:ink-link"
             >
               <span>next</span>
               <FiChevronRight className="ml-2" size={20} />

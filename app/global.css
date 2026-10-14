@@ -1,26 +1,71 @@
 @import "tailwindcss";
 @import "highlight.js/styles/github.css";
 
+/* Riso ink pairs. --ink prints type and photo shadows, --pop prints photo
+   highlights, rules and underlines. The ink switcher sets data-ink on <html>. */
+:root,
+[data-ink="orange"] { --ink: #3255A4; --pop: #FF6C2F; } /* Medium Blue + Orange */
+[data-ink="pink"] { --ink: #0078BF; --pop: #FF48B0; } /* Blue + Fluorescent Pink */
+[data-ink="green"] { --ink: #407060; --pop: #FFB511; } /* Hunter Green + Sunflower */
+[data-ink="burgundy"] { --ink: #914E72; --pop: #FFE800; } /* Burgundy + Yellow */
+[data-ink="black"] { --ink: #000000; --pop: #FF4C65; } /* Black + Fluorescent Red */
+:root { --paper: #F4F4F1; }
+
+@theme inline {
+  --font-sans: var(--font-archivo), Arial, sans-serif;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-pop: var(--pop);
+}
+
+@layer components {
+  /* Header stand-in until a photo is added: --ink halftone dots fading out over --pop. */
+  .halftone { background: var(--pop); }
+  .halftone::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, var(--ink) 0 38%, transparent 40%) 0 0 / 14px 14px;
+    mask-image: linear-gradient(155deg, #000 10%, transparent 80%);
+  }
+
+  .display { font-weight: 900; font-stretch: 75%; text-transform: uppercase; line-height: 0.9; text-wrap: balance; }
+}
+
+@utility ink-link {
+  text-decoration-line: underline;
+  text-decoration-color: var(--pop);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+html {
+  min-width: 360px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
 ::selection {
-  background-color: #47a3f3;
-  color: #fefefe;
+  background-color: var(--pop);
+  color: var(--ink);
 }
 
 .hljs {
   @apply bg-transparent;
 }
 
+.prose {
+  max-width: 68ch;
+}
+
 .prose code {
-  @apply bg-neutral-50 px-1 py-0.5 rounded-lg text-neutral-700;
+  @apply px-1 py-0.5 rounded;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
   font-family: "Roboto Mono", "Consolas", "Courier", monospace;
 }
 
 .prose pre code {
   @apply bg-transparent p-0;
-}
-
-html {
-  min-width: 360px;
 }
 
 .prose .anchor {
@@ -38,11 +83,11 @@ html {
 }
 
 .prose a {
-  @apply underline transition-all decoration-neutral-400 underline-offset-2 decoration-[0.1em] hover:decoration-black hover:text-black;
+  @apply ink-link;
 }
 
 .prose .anchor:after {
-  @apply text-neutral-300;
+  color: var(--pop);
   content: "#";
 }
 
@@ -51,7 +96,9 @@ html {
 }
 
 .prose pre {
-  @apply bg-neutral-50 rounded-lg overflow-x-auto border border-neutral-200 py-2 px-3 text-sm;
+  @apply rounded-lg overflow-x-auto py-2 px-3 text-sm;
+  background: color-mix(in srgb, var(--ink) 5%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
 }
 
 .prose code span {
@@ -64,27 +111,25 @@ html {
 }
 
 .prose p {
-  @apply my-4 text-neutral-800;
+  @apply my-4 leading-relaxed;
 }
 
-.prose h1 {
-  @apply text-4xl font-medium tracking-tight mt-6 mb-2;
-}
-
+.prose h1,
 .prose h2 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
+  @apply mt-10 mb-3 text-3xl uppercase leading-[0.9] font-black;
+  font-stretch: 75%;
 }
 
 .prose h3 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
+  @apply text-xl font-bold mt-8 mb-2;
 }
 
 .prose h4 {
-  @apply text-lg font-medium tracking-tight mt-6 mb-2;
+  @apply text-lg font-bold mt-6 mb-2;
 }
 
 .prose strong {
-  @apply font-medium;
+  @apply font-bold;
 }
 
 .prose ul {
@@ -95,6 +140,10 @@ html {
 
 .prose ol {
   @apply list-decimal pl-6;
+}
+
+.prose li::marker {
+  color: var(--pop);
 }
 
 .prose > :first-child {
@@ -112,14 +161,6 @@ pre {
   scrollbar-width: none; /* Firefox */
 }
 
-/* Remove Safari input shadow on mobile */
-input[type="text"],
-input[type="email"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
 table {
   display: block;
   max-width: fit-content;
@@ -127,24 +168,21 @@ table {
   white-space: nowrap;
 }
 
-.title {
-  text-wrap: balance;
-}
-
 .prose table {
   @apply w-full text-left mt-8 mb-8;
 }
 
+.prose table th,
+.prose table td {
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+}
+
 .prose table th {
-  @apply bg-neutral-50 p-4 border border-neutral-200;
+  @apply p-4;
 }
 
 .prose table td {
-  @apply p-2 border border-neutral-200;
-}
-
-.prose table tr {
-  @apply border-b border-neutral-200;
+  @apply p-2;
 }
 
 .prose figure {
@@ -152,5 +190,5 @@ table {
 }
 
 .prose figcaption {
-  @apply text-center text-xs text-neutral-500 my-2;
+  @apply text-center text-xs my-2;
 }

@@ -110,7 +110,7 @@ let components = {
   Table,
   figure: Figure,
   figcaption: (props) => (
-    <figcaption className="text-center text-sm text-gray-500 mt-2" {...props} />
+    <figcaption className="text-center text-sm mt-2" {...props} />
   ),
 };
 

@@ -1,15 +1,25 @@
 import "./global.css";
 import type { Metadata } from "next";
+import { Archivo } from "next/font/google";
 import { Navbar } from "./components/nav";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "./components/footer";
 import React from "react";
 
+const archivo = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  variable: "--font-archivo",
+});
+
+// Runs before first paint so a saved ink choice never flashes the default colors.
+const inkScript = `try{var i=localStorage.getItem("ink");if(i)document.documentElement.dataset.ink=i}catch(e){}`;
+
 export const metadata: Metadata = {
   title: "Taufiq Dwi Purnomo",
   description:
-    "Taufiq Dwi Purnomo: Experienced Machine Learning Engineer and Web Developer specializing in AI and web applications.",
+    "Taufiq Dwi Purnomo: AI Engineer and AI Consultant building NLP, LLM, computer vision and AI agent solutions, plus web applications.",
   keywords:
     "Machine Learning, Web Development, AI, Portfolio, Taufiq Dwi Purnomo",
   authors: [
@@ -19,9 +29,9 @@ export const metadata: Metadata = {
     },
   ],
   openGraph: {
-    title: "Taufiq Dwi Purnomo - ML & Web Developer",
+    title: "Taufiq Dwi Purnomo - AI Engineer",
     description:
-      "Explore the projects, skills and blogs of Taufiq Dwi Purnomo, a Machine Learning Engineer and Web Developer.",
+      "Explore the projects, skills and blogs of Taufiq Dwi Purnomo, an AI Engineer and AI Consultant.",
     type: "website",
     url: "https://taufiqdp.com",
     images: [
@@ -49,17 +59,16 @@ export const metadata: Metadata = {
   },
 };
 
-const cx = (...classes: (string | undefined | null | false)[]) =>
-  classes.filter(Boolean).join(" ");
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cx(`text-black bg-[#fbfbfb] font-sans`)}>
+    // suppressHydrationWarning: inkScript sets data-ink before React hydrates.
+    <html lang="en" className={archivo.variable} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: inkScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -67,10 +76,10 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Taufiq Dwi Purnomo",
-              jobTitle: "Machine Learning Engineer & Web Developer",
+              jobTitle: "AI Engineer",
               url: "https://taufiqdp.com",
               sameAs: [
-                "https://www.linkedin.com/in/taufiq-dwi-purnomo/",
+                "https://www.linkedin.com/in/taufiqdp",
                 "https://github.com/taufiqdp",
               ],
               knowsAbout: [
@@ -86,14 +95,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased max-w-3xl mx-4 mt-4 lg:mt-8 sm:mx-auto">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Navbar />
-          {children}
-          <Footer />
-          <Analytics />
-          <SpeedInsights />
-        </main>
+      <body className="mx-auto max-w-[1440px] px-4 pt-5 pb-10 font-sans text-[17px] leading-normal antialiased sm:px-6 lg:px-10">
+        <Navbar />
+        <main className="min-w-0">{children}</main>
+        <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
