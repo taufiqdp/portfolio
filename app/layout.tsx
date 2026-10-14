@@ -5,6 +5,7 @@ import { Navbar } from "./components/nav";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "./components/footer";
+import { NowPlaying } from "./components/now-playing";
 import React from "react";
 
 const archivo = Archivo({
@@ -99,6 +100,7 @@ export default function RootLayout({
         <Navbar />
         <main className="min-w-0">{children}</main>
         <Footer />
+        <NowPlaying />
         <Analytics />
         <SpeedInsights />
       </body>

@@ -1,14 +1,14 @@
 import Link from "next/link";
 import React from "react";
-import { experience, tracks } from "../data";
+import { experience } from "../data";
 import { InkSwitcher } from "./ink-switcher";
 
 const navItems = [
   { href: "/", name: "Home", show: true },
   { href: "/#experience", name: "Experience", show: experience.length > 0 },
   { href: "/blog", name: "Writing", show: true },
-  { href: "/photos", name: "Photos", show: true },
-  { href: "/#music", name: "Music", show: tracks.length > 0 },
+  { href: "/gallery", name: "Gallery", show: true },
+  { href: "/#music", name: "Music", show: !!process.env.LAST_FM_API_KEY },
   { href: "/#contact", name: "Contact", show: true },
 ];
 

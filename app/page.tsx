@@ -4,8 +4,9 @@ import { connection } from "next/server";
 import React, { Suspense } from "react";
 import { BlogPosts } from "./components/posts";
 import { Gallery } from "./components/gallery";
-import { experience, hobbies, links, tracks } from "./data";
-import { BUCKET_URL, getPhotos, type Photo } from "./photos/data";
+import { experience, hobbies, links } from "./data";
+import { getOnRepeat, type RepeatTrack } from "./music";
+import { BUCKET_URL, getPhotos, type Photo } from "./gallery/data";
 
 const facts = [
   ["Works on", "AI solutions and web apps"],
@@ -37,7 +38,7 @@ function Section({
 // The header photo, by its path in the bucket. It's center-cropped to the header's 3:2 box.
 const HERO_KEY = "photos/DSCF0186.JPG";
 
-// A random few here; the rest are on /photos.
+// A random few here; the rest are in /gallery.
 const HOME_PHOTOS = 4;
 
 // Fisher–Yates, then take the first n.
@@ -50,7 +51,7 @@ function pickRandom<T>(items: T[], n: number) {
   return a.slice(0, n);
 }
 
-async function HomePhotos() {
+async function HomeGallery() {
   // Render per request so the photo picks change on every visit.
   await connection();
   const photos = await getPhotos().catch((): Photo[] => []);
@@ -67,10 +68,10 @@ async function HomePhotos() {
     .slice(0, HOME_PHOTOS);
 
   return (
-    <Section id="photos" title="Photos">
+    <Section id="gallery" title="Gallery">
       <Gallery photos={homePhotos} />
       {photos.length > HOME_PHOTOS && (
-        <Link href="/photos" className="ink-link mt-3 inline-block font-bold">
+        <Link href="/gallery" className="ink-link mt-3 inline-block font-bold">
           See all {photos.length} photos
         </Link>
       )}
@@ -79,15 +80,68 @@ async function HomePhotos() {
 }
 
 // Same shape as the 2 + 2 grid, as halftone blocks.
-function PhotosLoading() {
+function GalleryLoading() {
   return (
-    <Section id="photos" title="Photos">
+    <Section id="gallery" title="Gallery">
       <div aria-busy="true" aria-label="Loading photos" className="columns-2 gap-2">
         {["aspect-[2/3]", "aspect-[3/2]", "aspect-[3/2]", "aspect-[2/3]"].map((shape, i) => (
           <div
             key={i}
             className={`halftone relative mb-3 break-inside-avoid animate-pulse motion-reduce:animate-none ${shape}`}
           />
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+// Most played songs of the past month from Last.fm, each linking to Spotify.
+async function OnRepeat() {
+  const tracks = await getOnRepeat().catch((): RepeatTrack[] => []);
+  if (tracks.length === 0) return null;
+
+  return (
+    <Section id="music" title="On repeat">
+      <ol className="grid gap-4">
+        {tracks.map((track) => (
+          <li key={`${track.title}-${track.artist}`}>
+            <a
+              href={track.spotifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-4"
+            >
+              {track.cover ? (
+                <img src={track.cover} alt="" className="size-16 shrink-0 bg-ink/10" />
+              ) : (
+                <span aria-hidden="true" className="halftone relative size-16 shrink-0" />
+              )}
+              <span className="min-w-0">
+                <b className="display block text-2xl leading-tight font-extrabold [font-stretch:80%] group-hover:ink-link">
+                  {track.title}
+                </b>
+                {track.artist}
+              </span>
+              <span className="ml-auto shrink-0 text-sm tabular-nums">
+                {track.plays} plays
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </Section>
+  );
+}
+
+function OnRepeatLoading() {
+  return (
+    <Section id="music" title="On repeat">
+      <div aria-busy="true" aria-label="Loading songs" className="grid gap-4">
+        {[0, 1, 2, 3, 4].map((i) => (
+          <div key={i} className="flex items-center gap-4">
+            <span className="halftone relative size-16 shrink-0 animate-pulse motion-reduce:animate-none" />
+            <span className="h-5 w-48 bg-ink/10" />
+          </div>
         ))}
       </div>
     </Section>
@@ -173,40 +227,13 @@ export default function Page() {
         </Section>
 
         {/* Only this section waits on the bucket; the rest of the page renders right away. */}
-        <Suspense fallback={<PhotosLoading />}>
-          <HomePhotos />
+        <Suspense fallback={<GalleryLoading />}>
+          <HomeGallery />
         </Suspense>
 
-        {tracks.length > 0 && (
-          <Section id="music" title="On repeat">
-            <ul className="grid gap-4.5">
-              {tracks.map((track) => (
-                <li
-                  key={`${track.title}-${track.artist}`}
-                  className="flex items-center gap-4"
-                >
-                  {track.cover && (
-                    <div className="relative size-18 shrink-0">
-                      <Image
-                        src={track.cover}
-                        alt=""
-                        fill
-                        sizes="72px"
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                  <div>
-                    <b className="display block text-2xl leading-tight font-extrabold [font-stretch:80%]">
-                      {track.title}
-                    </b>
-                    {track.artist}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </Section>
-        )}
+        <Suspense fallback={<OnRepeatLoading />}>
+          <OnRepeat />
+        </Suspense>
 
         {hobbies.length > 0 && (
           <Section title="Off the clock">

@@ -21,16 +21,13 @@ export const experience: {
   },
 ];
 
-// Photos come from the bucket's photos/ folder (see app/photos/data.ts).
+// Photos come from the bucket's photos/ folder (see app/gallery/data.ts).
 // Optional captions, keyed by the photo's path in the bucket.
 export const captions: Record<string, string> = {
   // "photos/DSCF0186.JPG": "Clouds after the rain",
 };
 
-// cover is optional; put the image in public/music/.
-export const tracks: { title: string; artist: string; cover?: string }[] = [
-  // { title: "Evaluasi", artist: "Hindia", cover: "/music/evaluasi.jpg" },
-];
+// Music (the On repeat section and the now-playing bar) comes from Last.fm; see app/music.ts.
 
 export const hobbies: { name: string; note: string }[] = [
   // { name: "Photography", note: "Walking around town with a camera." },

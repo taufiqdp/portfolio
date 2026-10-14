@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import React from "react";
-import type { Photo } from "../photos/data";
+import type { Photo } from "../gallery/data";
 
 const altText = (photo: Photo) => photo.caption || "Photo by Taufiq";
 
-// wide: more columns, for the full-width /photos page.
+// wide: more columns, for the full-width /gallery page.
 export function Gallery({ photos, wide = false }: { photos: Photo[]; wide?: boolean }) {
   const dialog = React.useRef<HTMLDialogElement>(null);
   const [open, setOpen] = React.useState<Photo | null>(null);
