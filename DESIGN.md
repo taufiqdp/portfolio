@@ -315,6 +315,12 @@ Print has square corners.
 - **Cartridge** (High scores): an ink shell with its top-right corner clipped and three pop grip
   ridges, the game cover inset at 3:4 as its label; title under each. A missing cover shows the
   halftone as the label.
+- **Loading screens:** shown the moment a link is clicked, until the page arrives. Gallery and
+  Listening keep their real titles and labels with pulsing halftone blocks in their own shapes
+  (masonry columns; taped covers and artist rows); other pages get a halftone title block and
+  three lines.
+- **Pending link:** a nav link that's still loading shows the pop equalizer beside it, after a
+  150ms pause so fast navigations don't flash it; a clicked period pill fills with ink at once.
 - **Period pills** (Listening): outlined pills linking to `?period=`; the current one is filled
   with ink and paper text.
 - **Paste-up** (Listening's top albums): covers tilted between -3.5° and 3.5°, each held on by a

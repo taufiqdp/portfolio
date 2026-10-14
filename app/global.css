@@ -105,6 +105,10 @@
   .display { font-weight: 900; font-stretch: 75%; text-transform: uppercase; line-height: 0.9; text-wrap: balance; }
 }
 
+/* Waits a beat before showing, so a fast navigation doesn't flash its pending hint. */
+.delayed-show { animation: delayed-show 0s 150ms both; }
+@keyframes delayed-show { from { visibility: hidden; } }
+
 @keyframes eq {
   from { transform: scaleY(0.3); }
   to { transform: scaleY(1); }

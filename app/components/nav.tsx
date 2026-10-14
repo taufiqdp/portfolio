@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { InkSwitcher } from "./ink-switcher";
+import { LinkPending } from "./link-pending";
 
 // Pages only; the home page's sections are one scroll away.
 const navItems = [
@@ -15,8 +16,9 @@ export function Navbar() {
     <header className="mb-4 flex flex-wrap items-center justify-between gap-x-5 gap-y-2 text-sm font-bold">
       <nav className="flex flex-wrap gap-x-5 gap-y-2">
         {navItems.map(({ href, name }) => (
-          <Link key={href} href={href} className="hover:ink-link">
+          <Link key={href} href={href} className="relative hover:ink-link">
             {name}
+            <LinkPending className="absolute top-1/2 left-full ml-1.5 -translate-y-1/2 text-pop" />
           </Link>
         ))}
       </nav>

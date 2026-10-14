@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
+import { LinkPending } from "../components/link-pending";
 import { Section } from "../components/section";
 import {
   getLastFmUser,
@@ -147,9 +148,11 @@ export default async function Page({
               href={`/music?period=${key}`}
               scroll={false}
               aria-current={key === period ? "page" : undefined}
-              className="rounded-full border-2 border-ink px-3.5 py-1 text-sm font-bold hover:bg-ink/10 aria-[current=page]:bg-ink aria-[current=page]:text-paper"
+              // The clicked pill fills right away, before its charts arrive.
+              className="rounded-full border-2 border-ink px-3.5 py-1 text-sm font-bold hover:bg-ink/10 aria-[current=page]:bg-ink aria-[current=page]:text-paper has-[[data-pending]]:bg-ink has-[[data-pending]]:text-paper"
             >
               {PERIODS[key]}
+              <LinkPending className="hidden" />
             </Link>
           ))}
         </nav>
