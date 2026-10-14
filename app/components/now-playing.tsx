@@ -46,13 +46,14 @@ export function NowPlaying() {
           <i />
           <i />
         </span>
-        <span className="hidden shrink-0 text-xs text-pop sm:inline">{label}</span>
+        {/* Text stays paper on ink; pop is only for the bars and the underline (DESIGN.md). */}
+        <span className="hidden shrink-0 text-xs opacity-80 sm:inline">{label}</span>
         {track.cover && <img src={track.cover} alt="" className="size-7 shrink-0" />}
         <span className="min-w-0 truncate">
           <b className="font-bold">{track.title}</b>
           <span className="ml-2 opacity-80">{track.artist}</span>
         </span>
-        <span className="ml-auto shrink-0 text-xs font-bold text-pop">Listen on Spotify</span>
+        <span className="ink-link ml-auto shrink-0 text-xs font-bold">Listen on Spotify</span>
       </a>
     </>
   );
