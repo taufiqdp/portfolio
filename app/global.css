@@ -72,6 +72,43 @@
     background: repeating-linear-gradient(var(--pop) 0 2px, transparent 2px 4px);
   }
 
+  /* Shows: a little CRT set. Ink body with rabbit ears and feet, two pop knobs and a paper
+     speaker grille; the show's still is the 4:3 screen, under faint ink scanlines that roll on hover. */
+  .tv { position: relative; display: block; padding: 24px 0 7px; }
+  .tv::before,
+  .tv::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 28px;
+    background: var(--ink);
+    transform-origin: bottom center;
+  }
+  .tv::before { transform: rotate(-32deg); }
+  .tv::after { transform: rotate(26deg); }
+  .tv-body { position: relative; display: flex; gap: 10px; background: var(--ink); padding: 10px; }
+  .tv-body::before,
+  .tv-body::after { content: ""; position: absolute; bottom: -7px; width: 16px; height: 7px; background: var(--ink); }
+  .tv-body::before { left: 14%; }
+  .tv-body::after { right: 14%; }
+  .tv-screen { flex: 1; }
+  .tv-screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, color-mix(in srgb, var(--ink) 40%, transparent) 0 1px, transparent 1px 3px);
+  }
+  a:hover .tv-screen::after { animation: tv-roll 0.6s linear infinite; }
+  .tv-panel { width: 17%; display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 4px; }
+  .tv-knob { width: 13px; height: 13px; border-radius: 50%; background: var(--pop); }
+  .tv-grille { margin-top: auto; width: 70%; height: 22px; background: repeating-linear-gradient(var(--paper) 0 2px, transparent 2px 5px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    a:hover .tv-screen::after { animation: none; }
+  }
+
   /* Paste-up (top albums on /music): covers tilted a few degrees and held on with pop tape;
      hover or focus straightens one. The tape overprints the cover like riso ink. */
   .paste > li { position: relative; transform: rotate(var(--tilt, 0deg)); transition: transform 0.25s; }
@@ -108,6 +145,8 @@
 /* Waits a beat before showing, so a fast navigation doesn't flash its pending hint. */
 .delayed-show { animation: delayed-show 0s 150ms both; }
 @keyframes delayed-show { from { visibility: hidden; } }
+
+@keyframes tv-roll { to { background-position: 0 6px; } }
 
 @keyframes eq {
   from { transform: scaleY(0.3); }

@@ -211,9 +211,9 @@ and `pop`. Never hard-code a hex value in a component; use the tokens so the ink
 - **Ink / Primary (#3255A4, Medium Blue):** all text, headings, the name, outlines, the
   now-playing bar background, the dots of the halftone. 6.4:1 on paper.
 - **Pop / Secondary (#FF6C2F, Orange):** accents only: section divider rules, link underlines,
-  the halftone ground, the equalizer bars, the photo placeholder, the cartridge grip ridges, the
-  paste-up tape and the artist chart bars. It is never used for text on paper or for small text
-  on ink (2.5:1 on Medium Blue).
+  the halftone ground, the equalizer bars, the photo placeholder, the cartridge grip ridges,
+  the TV knobs, the paste-up tape and the artist chart bars. It is never used for text on paper
+  or for small text on ink (2.5:1 on Medium Blue).
 - **Paper / Neutral (#F4F4F1):** the page ground and the text colour on ink surfaces.
 - **Scrim (#000000 at 85%):** behind an opened photo.
 - **Avatar ground (#FFFFFF):** the round profile doodle keeps its original white background.
@@ -312,6 +312,9 @@ Print has square corners.
   Spotify". The whole bar is one link.
 - **Film strip** (Top four): film posters at 2:3 as frames of one ink 35mm strip, square
   paper sprocket holes along both edges, 6px of ink between frames; title and year under each.
+- **TV set** (Favourite shows): a little ink CRT with rabbit ears and feet, two pop knobs and a
+  paper speaker grille; the show's 4:3 still is the screen, under faint ink scanlines that roll
+  on hover. Two across; title, years and seasons under each.
 - **Cartridge** (Favourite games): an ink shell with its top-right corner clipped and three pop grip
   ridges, the game cover inset at 3:4 as its label; title under each. A missing cover shows the
   halftone as the label.
@@ -341,11 +344,12 @@ Print has square corners.
 - Do keep body text at 4.5:1 contrast or better; check new ink pairs before adding them.
 - Do set headlines uppercase, condensed and heavy; don't use uppercase for body text or labels.
 - Don't add drop shadows, rounded cards or gradient washes.
-- Don't round photos or blocks; round only the avatar, swatches and pills.
+- Don't round photos or blocks; round only the avatar, swatches, pills and the TV knobs.
 - Don't tilt things; the paste-up on Listening is the one deliberate exception.
 - Don't centre content blocks; keep the left edge strong.
 - Do give every photo real alt text (its caption when it has one) and keep visible keyboard focus.
-- Do respect `prefers-reduced-motion`: the equalizer, loading pulses and paste-up hover stop.
+- Do respect `prefers-reduced-motion`: the equalizer, loading pulses, TV scanline roll and
+  paste-up hover stop.
 - Do credit outside data where it's shown: "via Last.fm" under On repeat, a Letterboxd link
   under Top four and Recently watched, "Charts via Last.fm" on Listening, and Spotify links with
   unmodified album art and artist photos.

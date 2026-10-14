@@ -32,9 +32,16 @@ export const captions: Record<string, string> = {
 
 // Music (the On repeat section and the now-playing bar) comes from Last.fm; see app/music.ts.
 
-// Favourite films and games, four of each. poster is a file in public/favourites/;
-// leave it out and a halftone block stands in. href is optional too.
-export type Favourite = { title: string; year?: number; poster?: string; href?: string };
+// Favourite films, shows and games, four of each. poster is a file in public/favourites/;
+// leave it out and a halftone block stands in. year can be a range ("2011–2019"), and detail
+// follows it ("8 seasons"). href is optional too.
+export type Favourite = {
+  title: string;
+  year?: number | string;
+  detail?: string;
+  poster?: string;
+  href?: string;
+};
 
 export const letterboxdUrl = "https://letterboxd.com/taufiqdp/";
 
@@ -63,6 +70,38 @@ export const films: Favourite[] = [
     year: 1959,
     poster: "/favourites/some-like-it-hot.jpg",
     href: "https://letterboxd.com/film/some-like-it-hot/",
+  },
+];
+
+// The top four shows, each linking to its IMDb page. poster is a 4:3 still for the TV screen.
+export const shows: Favourite[] = [
+  {
+    title: "Game of Thrones",
+    year: "2011–2019",
+    detail: "8 seasons",
+    poster: "/favourites/game-of-thrones.jpg",
+    href: "https://www.imdb.com/title/tt0944947/",
+  },
+  {
+    title: "Breaking Bad",
+    year: "2008–2013",
+    detail: "5 seasons",
+    poster: "/favourites/breaking-bad.jpg",
+    href: "https://www.imdb.com/title/tt0903747/",
+  },
+  {
+    title: "Succession",
+    year: "2018–2023",
+    detail: "4 seasons",
+    poster: "/favourites/succession.jpg",
+    href: "https://www.imdb.com/title/tt7660850/",
+  },
+  {
+    title: "Chernobyl",
+    year: 2019,
+    detail: "Miniseries",
+    poster: "/favourites/chernobyl.jpg",
+    href: "https://www.imdb.com/title/tt7366338/",
   },
 ];
 

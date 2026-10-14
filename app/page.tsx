@@ -5,7 +5,7 @@ import React, { Suspense } from "react";
 import { BlogPosts } from "./components/posts";
 import { Gallery } from "./components/gallery";
 import { Section } from "./components/section";
-import { experience, films, games, hobbies, letterboxdUrl, links, type Favourite } from "./data";
+import { experience, films, games, hobbies, letterboxdUrl, links, shows, type Favourite } from "./data";
 import { getOnRepeat, type RepeatTrack } from "./music";
 import { getRecentlyWatched, stars, type WatchedFilm } from "./letterboxd";
 import { formatDate } from "./blog/utils";
@@ -129,32 +129,52 @@ async function OnRepeat() {
   );
 }
 
-// Four across: films as frames of one film strip, games as cartridges. The title under each
-// names it, so the art itself has empty alt text, like the On repeat covers.
-function Favourites({ items, kind }: { items: Favourite[]; kind: "film" | "game" }) {
-  const film = kind === "film";
+// Films as frames of one film strip (four across), shows on little CRT sets (two across), games
+// as cartridges (four across). The title under each names it, so the art itself has empty alt
+// text, like the On repeat covers.
+const SHELVES = {
+  film: { list: "grid-cols-4", aspect: "aspect-[2/3]", sizes: "(min-width: 768px) 12vw, 25vw" },
+  show: { list: "grid-cols-2 gap-x-4 gap-y-7", aspect: "aspect-[4/3]", sizes: "(min-width: 768px) 20vw, 40vw" },
+  game: { list: "grid-cols-4 gap-2", aspect: "aspect-[3/4]", sizes: "(min-width: 768px) 12vw, 25vw" },
+};
+
+function Favourites({ items, kind }: { items: Favourite[]; kind: keyof typeof SHELVES }) {
+  const shelf = SHELVES[kind];
   return (
-    <ol className={`grid grid-cols-4 ${film ? "" : "gap-2"}`}>
+    <ol className={`grid ${shelf.list}`}>
       {items.map((item, i) => {
+        const art = (
+          <span className={`halftone relative block overflow-hidden ${shelf.aspect} ${kind === "show" ? "tv-screen" : ""}`}>
+            {item.poster && (
+              <Image src={item.poster} alt="" fill sizes={shelf.sizes} className="object-cover" />
+            )}
+          </span>
+        );
         const body = (
           <>
-            <span className={film ? "film-frame" : "cartridge"}>
-              <span className={`halftone relative block overflow-hidden ${film ? "aspect-[2/3]" : "aspect-[3/4]"}`}>
-                {item.poster && (
-                  <Image
-                    src={item.poster}
-                    alt=""
-                    fill
-                    sizes="(min-width: 768px) 12vw, 25vw"
-                    className="object-cover"
-                  />
-                )}
+            {kind === "film" && <span className="film-frame">{art}</span>}
+            {kind === "game" && <span className="cartridge">{art}</span>}
+            {kind === "show" && (
+              <span className="tv">
+                <span className="tv-body">
+                  {art}
+                  <span aria-hidden="true" className="tv-panel">
+                    <span className="tv-knob" />
+                    <span className="tv-knob" />
+                    <span className="tv-grille" />
+                  </span>
+                </span>
               </span>
-            </span>
+            )}
             <span className="mt-2 block px-1 text-sm leading-tight font-bold group-hover:ink-link">
               {item.title}
             </span>
-            {item.year && <span className="block px-1 text-[13px] tabular-nums">{item.year}</span>}
+            {item.year && (
+              <span className="block px-1 text-[13px] tabular-nums">
+                {item.year}
+                {item.detail && ` · ${item.detail}`}
+              </span>
+            )}
           </>
         );
         return (
@@ -361,6 +381,12 @@ export default function Page() {
         <Suspense fallback={<RowsLoading id="watched" title="Recently watched" label="Loading films" thumb="h-18 w-12" />}>
           <RecentlyWatched />
         </Suspense>
+
+        {shows.length > 0 && (
+          <Section id="shows" title="Favourite shows">
+            <Favourites items={shows} kind="show" />
+          </Section>
+        )}
 
         {games.length > 0 && (
           <Section id="games" title="Favourite games">
