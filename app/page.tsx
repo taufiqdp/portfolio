@@ -129,6 +129,18 @@ async function OnRepeat() {
           </li>
         ))}
       </ol>
+      {/* Last.fm's API terms ask for a credit and link wherever its data is shown. */}
+      <p className="mt-5 text-[13px]">
+        Most played this month, via{" "}
+        <a
+          href={`https://www.last.fm/user/${encodeURIComponent(process.env.LAST_FM_USERNAME ?? "")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ink-link font-bold"
+        >
+          Last.fm
+        </a>
+      </p>
     </Section>
   );
 }

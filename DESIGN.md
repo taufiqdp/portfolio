@@ -1,9 +1,10 @@
 ---
 version: alpha
-name: Riso Zine
+name: Dua Tinta
 description: >-
-  Personal site of Taufiq Dwi Purnomo, AI engineer. A two-ink risograph zine: dense condensed
-  type, flat ink on newsprint paper, one bright accent ink, original-color photographs.
+  Dua Tinta ("two inks" in Indonesian), the design system of Taufiq Dwi Purnomo's site.
+  A two-ink zine: dense condensed type, flat ink on newsprint paper, one bright accent ink,
+  original-color photographs.
 colors:
   # Default ink pair (Medium Blue + Orange). Tokens are the light/default theme.
   primary: "#3255A4"
@@ -182,10 +183,11 @@ components:
     height: 2px
 ---
 
-# Riso Zine
+# Dua Tinta
 
-The design system for taufiqdp.com. The source of truth in code is `app/global.css` (ink tokens,
-halftone, display type) and the components in `app/`. Keep this file in step with them.
+**Dua Tinta** ("two inks" in Indonesian) is the design system of taufiqdp.com, by Taufiq Dwi
+Purnomo. Every screen is two inks on paper. The source of truth in code is `app/global.css`
+(ink tokens, halftone, display type) and the components in `app/`. Keep this file in step with them.
 
 ## Overview
 
@@ -215,7 +217,7 @@ and `pop`. Never hard-code a hex value in a component; use the tokens so the ink
 - **Scrim (#000000 at 85%):** behind an opened photo.
 - **Avatar ground (#FFFFFF):** the round profile doodle keeps its original white background.
 
-The ink switcher offers these real Riso ink pairs (type ink + accent ink), set with
+The ink switcher offers these risograph-style ink pairs (type ink + accent ink), set with
 `data-ink` on `<html>`:
 
 | Pair | Ink | Pop | Text on paper |
@@ -317,3 +319,5 @@ Print has square corners.
 - Don't centre content blocks; keep the left edge strong.
 - Do give every photo real alt text (its caption when it has one) and keep visible keyboard focus.
 - Do respect `prefers-reduced-motion`: the equalizer and loading pulses stop.
+- Do credit outside data where it's shown: "via Last.fm" under On repeat, and Spotify links
+  with unmodified album art.
