@@ -58,6 +58,11 @@ typography:
     fontSize: 26px
     fontWeight: 400
     lineHeight: 1.375
+  quote:
+    fontFamily: Newsreader
+    fontSize: 23px
+    fontWeight: 400
+    lineHeight: 1.375
   body-md:
     fontFamily: Archivo
     fontSize: 17px
@@ -234,7 +239,7 @@ Shared link previews (`/og`) always use the default pair, since a visitor's choi
 ## Typography
 
 One family: **Archivo**, a variable font loaded with its width axis. The personality comes from
-the width and weight extremes, not from a second typeface.
+the width and weight extremes, not from a second typeface. The one exception is the motto (below).
 
 - **Display headlines** (`headline-*`): Archivo Black weight (900, or 800 for smaller levels),
   condensed to 70–80% width, **always uppercase**, tight line height (0.84–1), `text-wrap: balance`.
@@ -245,6 +250,9 @@ the width and weight extremes, not from a second typeface.
 - **Body** (`body-md`): normal width, weight 400, 17px, sentence case. Blog prose (`body-prose`)
   is capped at 68 characters per line with relaxed line height.
 - **Lede** (`body-lg`): the "Who I am" sentence, fluid `clamp(20px, 2vw, 26px)`.
+- **Motto** (`quote`): the line under the lede, and the only text not in Archivo: **Newsreader
+  italic** 400, fluid `clamp(18px, 1.75vw, 23px)`, all lowercase as written, in curly quotes with
+  the opening mark hanging into the margin. Loaded on the home page only. Use it nowhere else.
 - **Labels** (`label-*`): navigation is 14px bold; captions, dates and fact labels are 13–14px
   regular. Labels stay in sentence case; uppercase belongs to display headlines only.
 - **Code**: a monospace face (Roboto Mono, falling back to Consolas) in blog code blocks only.
@@ -261,7 +269,9 @@ the width and weight extremes, not from a second typeface.
   first section has no rule.
 - Other pages (writing, a post, gallery) are a single left-aligned column. Listening (`/music`)
   borrows the home page's two columns: a sticky masthead (title, totals, period pills) on the left.
-- Content is left-aligned everywhere. Nothing is centred except the opened photo.
+- Content is left-aligned everywhere. Nothing is centred except the opened photo and, on phones
+  (below 640px), the profile avatar, which sits centred above the "Who I am" text; from 640px up
+  it sits beside it.
 - The gallery is a CSS-columns masonry: two columns on the home page; two, three and four columns
   (phone, tablet, wide) on `/gallery`. Gaps are 8px; photos keep their real aspect ratios.
 - The now-playing bar is fixed to the bottom of every page; a matching spacer keeps the footer
