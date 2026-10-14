@@ -1,21 +1,20 @@
-import { findOnSpotify, lastFmCover, lastFmUrl } from "../../music";
+import { findOnSpotify, getSpotifyNowPlaying, lastFmCover, lastFmUrl, type Track } from "../../music";
 
-// Your latest Last.fm scrobble, with a link to the song on Spotify (see app/music.ts).
-export type Track = {
-  title: string;
-  artist: string;
-  cover: string | null;
-  playing: boolean;
-  spotifyUrl: string;
-};
+export type { Track };
 
+// Short CDN cache: at most one Spotify/Last.fm call per few seconds, while staying near real time.
+const headers = { "Cache-Control": "public, s-maxage=5, stale-while-revalidate=5" };
+
+// What's on your Spotify right now; when nothing is, your last Last.fm scrobble (see app/music.ts).
 export async function GET() {
+  const live = await getSpotifyNowPlaying().catch(() => null);
+  if (live) return Response.json(live satisfies Track, { headers });
+
   const url = lastFmUrl("user.getrecenttracks", { limit: "1" });
   if (!url) return Response.json(null);
-
-  const res = await fetch(url, { next: { revalidate: 30 } });
+  const res = await fetch(url, { cache: "no-store" });
   const track = res.ok ? (await res.json())?.recenttracks?.track?.[0] : null;
-  if (!track) return Response.json(null);
+  if (!track) return Response.json(null, { headers });
 
   const title: string = track.name;
   const artist: string = track.artist?.["#text"] ?? "";
@@ -28,6 +27,6 @@ export async function GET() {
       playing: track["@attr"]?.nowplaying === "true",
       spotifyUrl: spotify.url,
     } satisfies Track,
-    { headers: { "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60" } }
+    { headers }
   );
 }

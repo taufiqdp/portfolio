@@ -3,7 +3,7 @@
 import React from "react";
 import type { Track } from "../api/now-playing/route";
 
-// Polls the route once a minute while the tab is visible.
+// Polls the route every 15 seconds while the tab is visible.
 function useNowPlaying() {
   const [track, setTrack] = React.useState<Track | null>(null);
   React.useEffect(() => {
@@ -14,7 +14,7 @@ function useNowPlaying() {
         .then((data) => alive && setTrack(data))
         .catch(() => {});
     load();
-    const timer = setInterval(() => !document.hidden && load(), 60_000);
+    const timer = setInterval(() => !document.hidden && load(), 15_000);
     return () => {
       alive = false;
       clearInterval(timer);

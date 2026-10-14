@@ -60,12 +60,12 @@ export const getOnRepeat = unstable_cache(
 
 // Kept in memory per server instance. ponytail: the map only grows by songs you play;
 // fine for one person's listening, swap for a TTL cache if it ever matters.
-let spotifyToken: { value: string; expires: number } | null = null;
+type Token = { value: string; expires: number } | null;
+let appToken: Token = null;
+let userToken: Token = null;
 const found = new Map<string, { url: string; cover: string | null }>();
 
-// App-only token (client credentials): enough for search, no Spotify login needed.
-async function getSpotifyToken() {
-  if (spotifyToken && spotifyToken.expires > Date.now()) return spotifyToken.value;
+async function requestSpotifyToken(body: Record<string, string>): Promise<Token> {
   const id = process.env.SPOTIFY_CLIENT_ID;
   const secret = process.env.SPOTIFY_CLIENT_SECRET;
   if (!id || !secret) return null;
@@ -76,13 +76,64 @@ async function getSpotifyToken() {
       Authorization: `Basic ${btoa(`${id}:${secret}`)}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: "grant_type=client_credentials",
+    body: new URLSearchParams(body),
     cache: "no-store",
   });
   if (!res.ok) return null;
   const { access_token, expires_in } = await res.json();
-  spotifyToken = { value: access_token, expires: Date.now() + (expires_in - 60) * 1000 };
-  return access_token as string;
+  return { value: access_token, expires: Date.now() + (expires_in - 60) * 1000 };
+}
+
+// App-only token (client credentials): enough for search, no Spotify login needed.
+async function getSpotifyToken() {
+  if (!appToken || appToken.expires <= Date.now()) {
+    appToken = await requestSpotifyToken({ grant_type: "client_credentials" });
+  }
+  return appToken?.value ?? null;
+}
+
+// Your own token, from the one-time `pnpm spotify:login`; needed to read what you're playing.
+async function getSpotifyUserToken() {
+  const refresh = process.env.SPOTIFY_REFRESH_TOKEN;
+  if (!refresh) return null;
+  if (!userToken || userToken.expires <= Date.now()) {
+    userToken = await requestSpotifyToken({ grant_type: "refresh_token", refresh_token: refresh });
+  }
+  return userToken?.value ?? null;
+}
+
+// Spotify lists covers largest first (640, 300, 64); 300 is plenty for small thumbnails.
+const pickCover = (images: { url: string; width: number }[]) =>
+  images.find((image) => image.width <= 300)?.url ?? images[0]?.url ?? null;
+
+export type Track = {
+  title: string;
+  artist: string;
+  cover: string | null;
+  playing: boolean;
+  spotifyUrl: string;
+};
+
+// The song on your Spotify right now (playing or paused); null when nothing is on,
+// it's a podcast, or there's no login.
+export async function getSpotifyNowPlaying(): Promise<Track | null> {
+  const token = await getSpotifyUserToken();
+  if (!token) return null;
+  const res = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  if (res.status !== 200) return null; // 204 means nothing is playing
+  const data = await res.json();
+  const item = data.item;
+  if (!item || data.currently_playing_type !== "track") return null;
+  return {
+    title: item.name,
+    artist: item.artists.map((a: { name: string }) => a.name).join(", "),
+    cover: pickCover(item.album.images),
+    playing: data.is_playing,
+    spotifyUrl: item.external_urls.spotify,
+  };
 }
 
 // Last.fm and Spotify differ on quote marks and spacing; compare without them.
@@ -123,10 +174,7 @@ export async function findOnSpotify(title: string, artist: string) {
     );
     if (!match) return search;
 
-    // Spotify lists covers largest first (640, 300, 64); 300 is plenty for small thumbnails.
-    const images = match.album.images;
-    const cover = images.find((image) => image.width <= 300)?.url ?? images[0]?.url ?? null;
-    const result = { url: match.external_urls.spotify, cover };
+    const result = { url: match.external_urls.spotify, cover: pickCover(match.album.images) };
     found.set(cacheKey, result);
     return result;
   } catch {
