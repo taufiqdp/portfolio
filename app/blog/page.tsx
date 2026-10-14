@@ -3,7 +3,8 @@ import React from "react";
 
 export const metadata = {
   title: "Writing",
-  description: "Read my blog.",
+  description:
+    "Writing by Taufiq Dwi Purnomo on AI, machine learning and deep learning.",
 };
 
 export default function Page() {

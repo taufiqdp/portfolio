@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "./components/footer";
 import { NowPlaying } from "./components/now-playing";
+import { links } from "./data";
 import React from "react";
 
 const archivo = Archivo({
@@ -19,7 +20,10 @@ const inkScript = `try{var i=localStorage.getItem("ink");if(i)document.documentE
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://taufiqdp.com"),
-  title: "Taufiq Dwi Purnomo",
+  title: {
+    default: "Taufiq Dwi Purnomo",
+    template: "%s | Taufiq Dwi Purnomo",
+  },
   description:
     "Taufiq Dwi Purnomo: AI Engineer and AI Consultant building NLP, LLM, computer vision and AI agent solutions, plus web applications.",
   keywords:
@@ -81,13 +85,12 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
+              "@id": "https://taufiqdp.com/#person",
               name: "Taufiq Dwi Purnomo",
+              alternateName: "taufiqdp",
               jobTitle: "AI Engineer",
               url: "https://taufiqdp.com",
-              sameAs: [
-                "https://www.linkedin.com/in/taufiqdp",
-                "https://github.com/taufiqdp",
-              ],
+              sameAs: links.map((link) => link.href),
               knowsAbout: [
                 "Machine Learning",
                 "Deep Learning",
