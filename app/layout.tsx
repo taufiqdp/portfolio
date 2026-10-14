@@ -18,6 +18,7 @@ const archivo = Archivo({
 const inkScript = `try{var i=localStorage.getItem("ink");if(i)document.documentElement.dataset.ink=i}catch(e){}`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://taufiqdp.com"),
   title: "Taufiq Dwi Purnomo",
   description:
     "Taufiq Dwi Purnomo: AI Engineer and AI Consultant building NLP, LLM, computer vision and AI agent solutions, plus web applications.",
@@ -37,12 +38,15 @@ export const metadata: Metadata = {
     url: "https://taufiqdp.com",
     images: [
       {
-        url: "https://taufiqdp.com/og-profile-image.png",
-        width: 800,
-        height: 600,
-        alt: "Taufiq Dwi Purnomo",
+        url: "/og",
+        width: 1200,
+        height: 630,
+        alt: "Taufiq Dwi Purnomo, AI engineer",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
   },
   robots: {
     index: true,
@@ -55,8 +59,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  // "./" resolves per page, so each page is its own canonical URL (not all pointing at the home page).
   alternates: {
-    canonical: "https://taufiqdp.com",
+    canonical: "./",
   },
 };
 
