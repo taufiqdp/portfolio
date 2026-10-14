@@ -40,19 +40,6 @@
     .eq.playing i { animation: none; }
   }
 
-  /* Film grain over a photo: fine grey noise with its contrast doubled, overlay-blended so it
-     adds texture, not a tint.
-     next/image's compression smooths out the photo's own grain; this puts it back. */
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    mix-blend-mode: overlay;
-    opacity: 0.6;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2' intercept='-.5'/%3E%3CfeFuncG type='linear' slope='2' intercept='-.5'/%3E%3CfeFuncB type='linear' slope='2' intercept='-.5'/%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
   /* Films: one frame of a 35mm strip, ink with paper sprocket holes along both edges.
      Frames sit side by side with no gap; round fits whole holes, so the strip joins up. */
   .film-frame { position: relative; display: block; background: var(--ink); padding: 18px 3px; }

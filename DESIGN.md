@@ -296,8 +296,7 @@ Print has square corners.
 - **Links:** ink text with a 2px pop underline offset 4px (`ink-link`). Navigation shows the
   underline on hover only.
 - **Header photo:** a fixed photo (`HERO_KEY` in `app/page.tsx`), centre-cropped to 3:2, original
-  colours, over the halftone while it loads. A strong film grain (`grain`: fine grey noise,
-  overlay blend, 60%) sits on top; it adds texture, never a tint.
+  colours, over the halftone while it loads.
 - **Halftone placeholder:** ink dots (14px grid) on pop, fading out diagonally. Used wherever a
   photo or cover is still loading or missing, and pulsed gently as a loading state (respecting
   reduced motion).

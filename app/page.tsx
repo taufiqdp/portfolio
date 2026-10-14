@@ -262,7 +262,7 @@ export default function Page() {
     <div className="grid gap-16 md:grid-cols-2 md:gap-[clamp(24px,5vw,72px)]">
       <div className="md:sticky md:top-5 md:self-start">
         {/* The fixed header photo, over a halftone that shows while it loads. */}
-        <div className="halftone grain relative aspect-[3/2] overflow-hidden md:max-h-[50vh]">
+        <div className="halftone relative aspect-[3/2] overflow-hidden md:max-h-[50vh]">
           <Image
             src={`${BUCKET_URL}/${HERO_KEY}`}
             alt="Clouds, photo by Taufiq"
