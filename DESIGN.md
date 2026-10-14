@@ -312,7 +312,7 @@ Print has square corners.
   Spotify". The whole bar is one link.
 - **Film strip** (Top four): film posters at 2:3 as frames of one ink 35mm strip, square
   paper sprocket holes along both edges, 6px of ink between frames; title and year under each.
-- **Cartridge** (High scores): an ink shell with its top-right corner clipped and three pop grip
+- **Cartridge** (Favourite games): an ink shell with its top-right corner clipped and three pop grip
   ridges, the game cover inset at 3:4 as its label; title under each. A missing cover shows the
   halftone as the label.
 - **Loading screens:** shown the moment a link is clicked, until the page arrives. Gallery and

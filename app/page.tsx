@@ -363,7 +363,7 @@ export default function Page() {
         </Suspense>
 
         {games.length > 0 && (
-          <Section id="games" title="High scores">
+          <Section id="games" title="Favourite games">
             <Favourites items={games} kind="game" />
           </Section>
         )}
