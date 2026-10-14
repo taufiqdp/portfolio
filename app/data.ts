@@ -66,12 +66,33 @@ export const films: Favourite[] = [
   },
 ];
 
-// ponytail: placeholders until the real four are picked. Covers are cropped to 3:4.
+// The top four games, each linking to its Steam page. Covers are Steam's 600x900 library art,
+// cropped to 3:4 on the cartridge label.
 export const games: Favourite[] = [
-  { title: "Empty slot" },
-  { title: "Empty slot" },
-  { title: "Empty slot" },
-  { title: "Empty slot" },
+  {
+    title: "Terraria",
+    year: 2011,
+    poster: "/favourites/terraria.jpg",
+    href: "https://store.steampowered.com/app/105600/",
+  },
+  {
+    title: "Kingdom Come: Deliverance II",
+    year: 2025,
+    poster: "/favourites/kingdom-come-deliverance-2.jpg",
+    href: "https://store.steampowered.com/app/1771300/",
+  },
+  {
+    title: "Cyberpunk 2077",
+    year: 2020,
+    poster: "/favourites/cyberpunk-2077.jpg",
+    href: "https://store.steampowered.com/app/1091500/",
+  },
+  {
+    title: "Baldur's Gate 3",
+    year: 2023,
+    poster: "/favourites/baldurs-gate-3.jpg",
+    href: "https://store.steampowered.com/app/1086940/",
+  },
 ];
 
 export const hobbies: { name: string; note: string }[] = [
