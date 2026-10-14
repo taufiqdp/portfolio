@@ -56,6 +56,83 @@ export const getOnRepeat = unstable_cache(
   { revalidate: 3600 }
 );
 
+// ---------- The Listening page (/music) ----------
+
+export const PERIODS = {
+  "7day": "This week",
+  "1month": "This month",
+  "12month": "This year",
+  overall: "All time",
+} as const;
+export type Period = keyof typeof PERIODS;
+
+export type TopAlbum = { title: string; artist: string; plays: number; cover: string | null; url: string };
+export type TopArtist = { name: string; plays: number; image: string | null; url: string };
+
+// Top nine albums and top ten artists for a period, refreshed hourly. Artist photos come from
+// Spotify (Last.fm stopped serving them), and those artists link to Spotify, as its terms ask.
+export const getListening = unstable_cache(
+  async (period: Period): Promise<{ albums: TopAlbum[]; artists: TopArtist[] }> => {
+    const albumsUrl = lastFmUrl("user.gettopalbums", { period, limit: "9" });
+    const artistsUrl = lastFmUrl("user.gettopartists", { period, limit: "10" });
+    if (!albumsUrl || !artistsUrl) return { albums: [], artists: [] };
+    const [albumsRes, artistsRes] = await Promise.all([
+      fetch(albumsUrl, { cache: "no-store" }),
+      fetch(artistsUrl, { cache: "no-store" }),
+    ]);
+    if (!albumsRes.ok || !artistsRes.ok) {
+      throw new Error(`Last.fm charts failed: ${albumsRes.status}/${artistsRes.status}`);
+    }
+    const albums: { name: string; playcount: string; url: string; artist: { name: string }; image?: { "#text": string }[] }[] =
+      (await albumsRes.json())?.topalbums?.album ?? [];
+    const artists: { name: string; playcount: string; url: string }[] =
+      (await artistsRes.json())?.topartists?.artist ?? [];
+
+    return {
+      albums: albums.map((album) => ({
+        title: album.name,
+        artist: album.artist.name,
+        plays: Number(album.playcount),
+        cover: lastFmCover(album.image),
+        url: album.url,
+      })),
+      artists: await Promise.all(
+        artists.map(async (artist) => {
+          const spotify = await findArtistOnSpotify(artist.name);
+          return {
+            name: artist.name,
+            plays: Number(artist.playcount),
+            image: spotify?.image ?? null,
+            url: spotify?.url ?? artist.url,
+          };
+        })
+      ),
+    };
+  },
+  ["listening"],
+  { revalidate: 3600 }
+);
+
+// Lifetime totals for the Listening page header, refreshed hourly.
+export const getLastFmUser = unstable_cache(
+  async () => {
+    const url = lastFmUrl("user.getinfo", {});
+    if (!url) return null;
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Last.fm user failed: ${res.status}`);
+    const user = (await res.json()).user;
+    return {
+      plays: Number(user.playcount),
+      artists: Number(user.artist_count),
+      albums: Number(user.album_count),
+      tracks: Number(user.track_count),
+      since: Number(user.registered.unixtime) * 1000,
+    };
+  },
+  ["last-fm-user"],
+  { revalidate: 3600 }
+);
+
 // ---------- Spotify ----------
 
 // Kept in memory per server instance. ponytail: the map only grows by songs you play;
@@ -134,6 +211,26 @@ export async function getSpotifyNowPlaying(): Promise<Track | null> {
     playing: data.is_playing,
     spotifyUrl: item.external_urls.spotify,
   };
+}
+
+// The artist's Spotify photo and page, only when the name matches exactly, so nobody gets the
+// wrong face; null when there's no match or Spotify is unavailable.
+async function findArtistOnSpotify(name: string) {
+  try {
+    const token = await getSpotifyToken();
+    if (!token) return null;
+    const res = await fetch(
+      `https://api.spotify.com/v1/search?type=artist&limit=5&q=${encodeURIComponent(name)}`,
+      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
+    );
+    if (!res.ok) return null;
+    const items: { name: string; external_urls: { spotify: string }; images: { url: string; width: number }[] }[] =
+      (await res.json()).artists?.items ?? [];
+    const match = items.find((item) => normalize(item.name) === normalize(name));
+    return match ? { image: pickCover(match.images), url: match.external_urls.spotify } : null;
+  } catch {
+    return null;
+  }
 }
 
 // Last.fm and Spotify differ on quote marks and spacing; compare without them.

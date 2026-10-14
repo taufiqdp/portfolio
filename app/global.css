@@ -72,6 +72,36 @@
     background: repeating-linear-gradient(var(--pop) 0 2px, transparent 2px 4px);
   }
 
+  /* Paste-up (top albums on /music): covers tilted a few degrees and held on with pop tape;
+     hover or focus straightens one. The tape overprints the cover like riso ink. */
+  .paste > li { position: relative; transform: rotate(var(--tilt, 0deg)); transition: transform 0.25s; }
+  .paste > li:nth-child(1) { --tilt: -1.5deg; }
+  .paste > li:nth-child(2) { --tilt: 3deg; }
+  .paste > li:nth-child(3) { --tilt: -2.5deg; }
+  .paste > li:nth-child(4) { --tilt: 2deg; }
+  .paste > li:nth-child(5) { --tilt: -3.5deg; }
+  .paste > li:nth-child(6) { --tilt: 1.5deg; }
+  .paste > li:nth-child(7) { --tilt: -2deg; }
+  .paste > li:nth-child(8) { --tilt: 3.5deg; }
+  .paste > li:nth-child(9) { --tilt: -1deg; }
+  .paste > li:hover,
+  .paste > li:focus-within { transform: scale(1.03); z-index: 1; }
+  .tape::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 40%;
+    height: 20px;
+    background: var(--pop);
+    mix-blend-mode: multiply;
+    transform: translateX(-50%) rotate(-5deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .paste > li { transition: none; }
+  }
+
   .display { font-weight: 900; font-stretch: 75%; text-transform: uppercase; line-height: 0.9; text-wrap: balance; }
 }
 

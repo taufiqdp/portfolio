@@ -4,6 +4,7 @@ import { connection } from "next/server";
 import React, { Suspense } from "react";
 import { BlogPosts } from "./components/posts";
 import { Gallery } from "./components/gallery";
+import { Section } from "./components/section";
 import { experience, films, games, hobbies, letterboxdUrl, links, type Favourite } from "./data";
 import { getOnRepeat, type RepeatTrack } from "./music";
 import { getRecentlyWatched, stars, type WatchedFilm } from "./letterboxd";
@@ -14,28 +15,6 @@ const facts = [
   ["Works on", "AI solutions and web apps"],
   ["Into", "NLP, LLMs, computer vision, AI agents"],
 ];
-
-function Section({
-  id,
-  title,
-  children,
-}: {
-  id?: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="mt-12 scroll-mt-6 border-t-2 border-pop pt-9 first:mt-0 first:border-0 first:pt-0"
-    >
-      <h2 className="display mb-6 text-[length:clamp(40px,4.6vw,64px)]">
-        {title}
-      </h2>
-      {children}
-    </section>
-  );
-}
 
 // The header photo, by its path in the bucket. It's center-cropped to the header's 3:2 box.
 const HERO_KEY = "photos/DSCF0186.JPG";
@@ -131,6 +110,9 @@ async function OnRepeat() {
           </li>
         ))}
       </ol>
+      <Link href="/music" className="ink-link mt-3 inline-block font-bold">
+        See top albums and artists
+      </Link>
       {/* Last.fm's API terms ask for a credit and link wherever its data is shown. */}
       <p className="mt-5 text-[13px]">
         Most played this month, via{" "}

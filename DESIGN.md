@@ -211,8 +211,9 @@ and `pop`. Never hard-code a hex value in a component; use the tokens so the ink
 - **Ink / Primary (#3255A4, Medium Blue):** all text, headings, the name, outlines, the
   now-playing bar background, the dots of the halftone. 6.4:1 on paper.
 - **Pop / Secondary (#FF6C2F, Orange):** accents only: section divider rules, link underlines,
-  the halftone ground, the equalizer bars, the photo placeholder, the cartridge grip ridges. It is never used for text on
-  paper or for small text on ink (2.5:1 on Medium Blue).
+  the halftone ground, the equalizer bars, the photo placeholder, the cartridge grip ridges, the
+  paste-up tape and the artist chart bars. It is never used for text on paper or for small text
+  on ink (2.5:1 on Medium Blue).
 - **Paper / Neutral (#F4F4F1):** the page ground and the text colour on ink surfaces.
 - **Scrim (#000000 at 85%):** behind an opened photo.
 - **Avatar ground (#FFFFFF):** the round profile doodle keeps its original white background.
@@ -258,7 +259,8 @@ the width and weight extremes, not from a second typeface.
   Below 768px everything stacks in one column and the masthead is not sticky.
 - Sections are separated by a 2px pop-coloured rule, with 48px above it and 36px below. The
   first section has no rule.
-- Other pages (writing, a post, gallery) are a single left-aligned column.
+- Other pages (writing, a post, gallery) are a single left-aligned column. Listening (`/music`)
+  borrows the home page's two columns: a sticky masthead (title, totals, period pills) on the left.
 - Content is left-aligned everywhere. Nothing is centred except the opened photo.
 - The gallery is a CSS-columns masonry: two columns on the home page; two, three and four columns
   (phone, tablet, wide) on `/gallery`. Gaps are 8px; photos keep their real aspect ratios.
@@ -288,7 +290,7 @@ Print has square corners.
 
 - **Section heading:** display type in ink, 24px below. Sections that have no content (for
   example hobbies) are hidden entirely.
-- **Navigation:** pages only (Home, Writing, Gallery), not anchors to home page sections.
+- **Navigation:** pages only (Home, Writing, Gallery, Listening), not anchors to home page sections.
 - **Social icons:** beside the tagline (wrapping under it on narrow columns), 22px ink icons 16px
   apart, no text; each link carries its name as `aria-label` and a tooltip. Hover or keyboard
   focus shows a 2px pop underline. Say hi lists the same links as words. The masthead must clear
@@ -313,6 +315,13 @@ Print has square corners.
 - **Cartridge** (High scores): an ink shell with its top-right corner clipped and three pop grip
   ridges, the game cover inset at 3:4 as its label; title under each. A missing cover shows the
   halftone as the label.
+- **Period pills** (Listening): outlined pills linking to `?period=`; the current one is filled
+  with ink and paper text.
+- **Paste-up** (Listening's top albums): covers tilted between -3.5° and 3.5°, each held on by a
+  strip of pop tape that multiplies over the art, with a paper price sticker ("No.1") in a 2px ink
+  border for the rank. #1 is twice the size. Hover or focus straightens and lifts a cover.
+- **Artist chart** (Listening): ranked rows with a square photo (larger for the top three), the
+  name in display type, plays, and a pop bar measured against #1.
 - **Ink switcher:** five two-dot swatches (ink + pop of each pair) in the header; the selected one
   gets a 2px ink ring.
 
@@ -327,8 +336,10 @@ Print has square corners.
 - Do set headlines uppercase, condensed and heavy; don't use uppercase for body text or labels.
 - Don't add drop shadows, rounded cards or gradient washes.
 - Don't round photos or blocks; round only the avatar, swatches and pills.
+- Don't tilt things; the paste-up on Listening is the one deliberate exception.
 - Don't centre content blocks; keep the left edge strong.
 - Do give every photo real alt text (its caption when it has one) and keep visible keyboard focus.
-- Do respect `prefers-reduced-motion`: the equalizer and loading pulses stop.
+- Do respect `prefers-reduced-motion`: the equalizer, loading pulses and paste-up hover stop.
 - Do credit outside data where it's shown: "via Last.fm" under On repeat, a Letterboxd link
-  under Top four and Recently watched, and Spotify links with unmodified album art.
+  under Top four and Recently watched, "Charts via Last.fm" on Listening, and Spotify links with
+  unmodified album art and artist photos.
