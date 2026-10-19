@@ -19,7 +19,8 @@ const decode = (text: string) => text.replace(/&(amp|lt|gt|quot|#0?39);/g, (_, n
 // The latest five diary entries, refreshed hourly.
 export const getRecentlyWatched = unstable_cache(
   async (): Promise<WatchedFilm[]> => {
-    const res = await fetch(`${letterboxdUrl}rss/`, { cache: "no-store" });
+    // Give up after 5 s rather than hold the page open; the section is just skipped this time.
+    const res = await fetch(`${letterboxdUrl}rss/`, { cache: "no-store", signal: AbortSignal.timeout(5000) });
     if (!res.ok) throw new Error(`Letterboxd feed failed: ${res.status}`);
     const xml = await res.text();
 

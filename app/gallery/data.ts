@@ -15,9 +15,33 @@ export type Photo = {
   caption: string;
 };
 
+// The bucket now and then stalls a single request for 10–30 s. Give up long before that: a page
+// left streaming that long gets cut off by the host, and the browser shows "This page couldn't load".
+const TIMEOUT = 5000;
+
+// A photo's size never changes, so it's read once and kept for good. A failed or stalled read
+// throws, which isn't cached, so the next refresh tries that photo again.
+const getSize = unstable_cache(
+  async (src: string) => {
+    // Size and EXIF orientation sit in the first KBs; no need to download the whole file.
+    const head = await fetch(src, {
+      headers: { Range: "bytes=0-131071" },
+      cache: "no-store",
+      signal: AbortSignal.timeout(TIMEOUT),
+    });
+    const { width, height, orientation = 1 } = imageSize(
+      new Uint8Array(await head.arrayBuffer())
+    );
+    const sideways = orientation >= 5; // EXIF 5–8: stored rotated by 90°
+    return sideways ? { width: height, height: width } : { width, height };
+  },
+  ["photo-size"]
+);
+
 async function listPhotos(): Promise<Photo[]> {
   const res = await fetch(`${BUCKET_URL}?list-type=2&prefix=photos/`, {
     cache: "no-store",
+    signal: AbortSignal.timeout(TIMEOUT),
   });
   if (!res.ok) throw new Error(`Listing photos failed: ${res.status}`);
 
@@ -32,24 +56,9 @@ async function listPhotos(): Promise<Photo[]> {
     keys.map(async (key) => {
       const src = `${BUCKET_URL}/${encodeURI(key)}`;
       try {
-        // Size and EXIF orientation sit in the first KBs; no need to download the whole file.
-        const head = await fetch(src, {
-          headers: { Range: "bytes=0-131071" },
-          cache: "no-store",
-        });
-        const { width, height, orientation = 1 } = imageSize(
-          new Uint8Array(await head.arrayBuffer())
-        );
-        const sideways = orientation >= 5; // EXIF 5–8: stored rotated by 90°
-        return {
-          key,
-          src,
-          width: sideways ? height : width,
-          height: sideways ? width : height,
-          caption: captions[key] ?? "",
-        };
+        return { key, src, ...(await getSize(src)), caption: captions[key] ?? "" };
       } catch {
-        return null; // unreadable file: leave it out rather than break the page
+        return null; // unreadable or stalled: leave it out this hour rather than hold up the page
       }
     })
   );

@@ -6,6 +6,10 @@ import { unstable_cache } from "next/cache";
 
 const LAST_FM = "https://ws.audioscrobbler.com/2.0/";
 
+// Give up on a stalled Last.fm or Spotify call rather than hold the page open until the host cuts
+// it off (the browser then shows "This page couldn't load"). Callers fall back, as on any failure.
+const TIMEOUT = 5000;
+
 // Last.fm's grey star stand-in when it has no artwork.
 const NO_ART = "2a96cbd8b46e442fc41c2b86b821562f";
 export const lastFmCover = (images?: { "#text": string }[]) => {
@@ -34,7 +38,7 @@ export const getOnRepeat = unstable_cache(
   async (): Promise<RepeatTrack[]> => {
     const url = lastFmUrl("user.gettoptracks", { period: "1month", limit: "5" });
     if (!url) return [];
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(TIMEOUT) });
     if (!res.ok) throw new Error(`Last.fm top tracks failed: ${res.status}`);
     const top: { name: string; playcount: string; artist: { name: string }; image?: { "#text": string }[] }[] =
       (await res.json())?.toptracks?.track ?? [];
@@ -78,8 +82,8 @@ export const getListening = unstable_cache(
     const artistsUrl = lastFmUrl("user.gettopartists", { period, limit: "10" });
     if (!albumsUrl || !artistsUrl) return { albums: [], artists: [] };
     const [albumsRes, artistsRes] = await Promise.all([
-      fetch(albumsUrl, { cache: "no-store" }),
-      fetch(artistsUrl, { cache: "no-store" }),
+      fetch(albumsUrl, { cache: "no-store", signal: AbortSignal.timeout(TIMEOUT) }),
+      fetch(artistsUrl, { cache: "no-store", signal: AbortSignal.timeout(TIMEOUT) }),
     ]);
     if (!albumsRes.ok || !artistsRes.ok) {
       throw new Error(`Last.fm charts failed: ${albumsRes.status}/${artistsRes.status}`);
@@ -121,7 +125,7 @@ export const getLastFmUser = unstable_cache(
   async () => {
     const url = lastFmUrl("user.getinfo", {});
     if (!url) return null;
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(TIMEOUT) });
     if (!res.ok) throw new Error(`Last.fm user failed: ${res.status}`);
     const user = (await res.json()).user;
     return {
@@ -158,6 +162,7 @@ async function requestSpotifyToken(body: Record<string, string>): Promise<Token>
     },
     body: new URLSearchParams(body),
     cache: "no-store",
+    signal: AbortSignal.timeout(TIMEOUT),
   });
   if (!res.ok) return null;
   const { access_token, expires_in } = await res.json();
@@ -202,6 +207,7 @@ export async function getSpotifyNowPlaying(): Promise<Track | null> {
   const res = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
     headers: { Authorization: `Bearer ${token}` },
     cache: "no-store",
+    signal: AbortSignal.timeout(TIMEOUT),
   });
   if (res.status !== 200) return null; // 204 means nothing is playing
   const data = await res.json();
@@ -225,7 +231,7 @@ async function findAlbumOnSpotify(title: string, artist: string) {
     if (!token) return search;
     const res = await fetch(
       `https://api.spotify.com/v1/search?type=album&limit=5&q=${encodeURIComponent(`${title} artist:${artist}`)}`,
-      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
+      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store", signal: AbortSignal.timeout(TIMEOUT) }
     );
     if (!res.ok) return search;
     const items: { name: string; artists: { name: string }[]; external_urls: { spotify: string } }[] =
@@ -249,7 +255,7 @@ async function findArtistOnSpotify(name: string) {
     if (!token) return null;
     const res = await fetch(
       `https://api.spotify.com/v1/search?type=artist&limit=5&q=${encodeURIComponent(name)}`,
-      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
+      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store", signal: AbortSignal.timeout(TIMEOUT) }
     );
     if (!res.ok) return null;
     const items: { name: string; external_urls: { spotify: string }; images: { url: string; width: number }[] }[] =
@@ -281,7 +287,7 @@ export async function findOnSpotify(title: string, artist: string) {
     if (!token) return search;
     const res = await fetch(
       `https://api.spotify.com/v1/search?type=track&limit=5&q=${encodeURIComponent(`${title} artist:${artist}`)}`,
-      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
+      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store", signal: AbortSignal.timeout(TIMEOUT) }
     );
     if (!res.ok) return search;
     const items: {

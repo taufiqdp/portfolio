@@ -12,7 +12,7 @@ export async function GET() {
 
   const url = lastFmUrl("user.getrecenttracks", { limit: "1" });
   if (!url) return Response.json(null);
-  const res = await fetch(url, { cache: "no-store" });
+  const res = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(5000) });
   const track = res.ok ? (await res.json())?.recenttracks?.track?.[0] : null;
   if (!track) return Response.json(null, { headers });
 
