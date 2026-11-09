@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Google picked up a stray /& link and reports it as a 404; point it home.
+  redirects: async () => [{ source: "/&", destination: "/", permanent: true }],
   images: {
     // A photo never changes under the same name and the bucket sends no Cache-Control, so keep
     // resized copies a month instead of Next's 4-hour default, which redid them all day long.
