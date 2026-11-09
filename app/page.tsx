@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Newsreader } from "next/font/google";
 import { connection } from "next/server";
 import React, { Suspense } from "react";
 import { BlogPosts } from "./components/posts";
@@ -11,10 +10,6 @@ import { getOnRepeat, type RepeatTrack } from "./music";
 import { getRecentlyWatched, stars, type WatchedFilm } from "./letterboxd";
 import { formatDate } from "./blog/utils";
 import { BUCKET_URL, getPhotos, type Photo } from "./gallery/data";
-
-// The motto's face, the one exception to Archivo-only type (DESIGN.md). Loaded here, not in the
-// layout, so only the home page fetches it.
-const newsreader = Newsreader({ subsets: ["latin"], weight: "400", style: "italic" });
 
 const facts = [
   ["Works on", "AI solutions and web apps"],
@@ -324,10 +319,6 @@ export default function Page() {
               <p className="max-w-[32ch] text-[length:clamp(20px,2vw,26px)] leading-snug">
                 I build AI solutions with NLP, LLMs, computer vision and AI
                 agents, and responsive, interactive web apps.
-              </p>
-              {/* The opening quote hangs into the margin so the words line up with the lede. */}
-              <p className={`${newsreader.className} mt-4 -indent-[0.4em] text-[length:clamp(18px,1.75vw,23px)] leading-snug`}>
-                “your ai slop bores me”
               </p>
             </div>
           </div>
