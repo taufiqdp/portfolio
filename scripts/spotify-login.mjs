@@ -1,4 +1,5 @@
-// One-time Spotify login, so the site can read the song you're playing right now.
+// One-time Spotify login, so the site can read what you're playing, your top tracks and artists,
+// and what you last played.
 //
 // 1. In your Spotify app's settings (developer.spotify.com/dashboard), add this Redirect URI:
 //      http://127.0.0.1:8888/callback
@@ -23,7 +24,8 @@ const loginUrl =
   new URLSearchParams({
     response_type: "code",
     client_id: id,
-    scope: "user-read-currently-playing", // read-only: the song you're playing now
+    // All read-only: the song playing now, your top tracks and artists, what you last played.
+    scope: "user-read-currently-playing user-top-read user-read-recently-played",
     redirect_uri: REDIRECT_URI,
     state,
   });
