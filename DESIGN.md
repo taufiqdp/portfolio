@@ -308,7 +308,7 @@ Print has square corners.
   clicking opens a native `<dialog>` with the large version, a scrim and a Close button. Esc or a
   click outside closes it.
 - **List rows** (experience, on repeat, recently watched, posts): left-aligned, display-type title, a regular-weight
-  line under it; numbers such as dates and play counts use tabular figures.
+  line under it; numbers such as dates use tabular figures.
 - **Now-playing bar:** solid ink bar with paper text; three pop equalizer bars that bounce only
   while a song is playing; "Now playing" / "Last played", cover, title, artist and "Listen on
   Spotify". The whole bar is one link.
@@ -328,11 +328,11 @@ Print has square corners.
   150ms pause so fast navigations don't flash it; a clicked period pill fills with ink at once.
 - **Period pills** (Listening): outlined pills linking to `?period=`; the current one is filled
   with ink and paper text.
-- **Paste-up** (Listening's top albums): covers tilted between -3.5° and 3.5°, each held on by a
+- **Paste-up** (Listening's top tracks): covers tilted between -3.5° and 3.5°, each held on by a
   strip of pop tape that multiplies over the art, with a paper price sticker ("No.1") in a 2px ink
   border for the rank. #1 is twice the size. Hover or focus straightens and lifts a cover.
-- **Artist chart** (Listening): ranked rows with a square photo (larger for the top three), the
-  name in display type, plays, and a pop bar measured against #1.
+- **Artist chart** (Listening): ranked rows with a square photo (larger for the top three) and
+  the name in display type.
 - **Ink switcher:** five two-dot swatches (ink + pop of each pair) in the header; the selected one
   gets a 2px ink ring.
 
@@ -352,6 +352,6 @@ Print has square corners.
 - Do give every photo real alt text (its caption when it has one) and keep visible keyboard focus.
 - Do respect `prefers-reduced-motion`: the equalizer, loading pulses, TV scanline roll and
   paste-up hover stop.
-- Do credit outside data where it's shown: "via Last.fm" under On repeat, a Letterboxd link
-  under Top four and Recently watched, "Charts via Last.fm" on Listening, and Spotify links with
-  unmodified album art and artist photos.
+- Do credit outside data where it's shown: a Letterboxd link under Top four and Recently
+  watched, "from Spotify" under On repeat and on Listening, and Spotify links with unmodified
+  album art and artist photos.

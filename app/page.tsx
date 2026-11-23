@@ -6,7 +6,7 @@ import { BlogPosts } from "./components/posts";
 import { Gallery } from "./components/gallery";
 import { Section } from "./components/section";
 import { experience, films, games, hobbies, letterboxdUrl, links, shows, type Favourite } from "./data";
-import { getOnRepeat, type RepeatTrack } from "./music";
+import { getOnRepeat, type TopTrack } from "./music";
 import { getRecentlyWatched, stars, type WatchedFilm } from "./letterboxd";
 import { formatDate } from "./blog/utils";
 import { BUCKET_URL, getPhotos, type Photo } from "./gallery/data";
@@ -76,9 +76,9 @@ function GalleryLoading() {
   );
 }
 
-// Most played songs of the past month from Last.fm, each linking to Spotify.
+// Your top songs of the last 4 weeks on Spotify, each linking to it there.
 async function OnRepeat() {
-  const tracks = await getOnRepeat().catch((): RepeatTrack[] => []);
+  const tracks = await getOnRepeat().catch((): TopTrack[] => []);
   if (tracks.length === 0) return null;
 
   return (
@@ -87,7 +87,7 @@ async function OnRepeat() {
         {tracks.map((track) => (
           <li key={`${track.title}-${track.artist}`}>
             <a
-              href={track.spotifyUrl}
+              href={track.url}
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-4"
@@ -103,28 +103,14 @@ async function OnRepeat() {
                 </b>
                 {track.artist}
               </span>
-              <span className="ml-auto shrink-0 text-sm tabular-nums">
-                {track.plays} plays
-              </span>
             </a>
           </li>
         ))}
       </ol>
       <Link href="/music" className="ink-link mt-3 inline-block font-bold">
-        See top albums and artists
+        See top tracks and artists
       </Link>
-      {/* Last.fm's API terms ask for a credit and link wherever its data is shown. */}
-      <p className="mt-5 text-[13px]">
-        Most played this month, via{" "}
-        <a
-          href={`https://www.last.fm/user/${encodeURIComponent(process.env.LAST_FM_USERNAME ?? "")}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ink-link font-bold"
-        >
-          Last.fm
-        </a>
-      </p>
+      <p className="mt-5 text-[13px]">Top tracks of the last 4 weeks, from Spotify.</p>
     </Section>
   );
 }

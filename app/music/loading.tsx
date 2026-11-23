@@ -17,15 +17,7 @@ export default function Loading() {
         <h1 className="display mt-10 text-[length:clamp(56px,8.4vw,130px)] leading-[0.84] [font-stretch:70%]">
           Listening
         </h1>
-        <div className={`mt-5 h-14 max-w-[26ch] bg-ink/10 ${pulse}`} />
-        <div className="mt-7 grid max-w-[420px] grid-cols-2 gap-x-6 gap-y-4">
-          {["Plays", "Artists", "Albums", "Tracks"].map((label) => (
-            <div key={label}>
-              <p className="text-[13px]">{label}</p>
-              <div className={`mt-1 h-5 w-20 bg-ink/10 ${pulse}`} />
-            </div>
-          ))}
-        </div>
+        <div className={`mt-5 h-8 max-w-[26ch] bg-ink/10 ${pulse}`} />
         <div className="mt-8 flex flex-wrap gap-2">
           {Object.values(PERIODS).map((label) => (
             <span key={label} className="rounded-full border-2 border-ink px-3.5 py-1 text-sm font-bold">
@@ -36,7 +28,7 @@ export default function Loading() {
       </div>
 
       <div>
-        <Section title="Top albums">
+        <Section title="Top tracks">
           <ol className="paste grid grid-cols-2 gap-x-[18px] gap-y-[30px] px-1 pt-2.5 lg:grid-cols-3">
             {Array.from({ length: 9 }, (_, i) => (
               <li key={i} className={i === 0 ? "col-span-2 lg:row-span-2" : undefined}>

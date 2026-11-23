@@ -3,33 +3,24 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { LinkPending } from "../components/link-pending";
 import { Section } from "../components/section";
-import {
-  getLastFmUser,
-  getListening,
-  PERIODS,
-  type Period,
-  type TopAlbum,
-  type TopArtist,
-} from "../music";
+import { getListening, PERIODS, type Period, type TopArtist, type TopTrack } from "../music";
 
 export const metadata = {
   title: "Listening",
-  description: "What Taufiq Dwi Purnomo has been listening to: top albums and artists from Last.fm.",
+  description: "What Taufiq Dwi Purnomo has been listening to: top tracks and artists from Spotify.",
 };
 
-const plays = (n: number) => `${n.toLocaleString("en-US")} plays`;
-
 // Covers tilted and taped on, each with a paper price sticker for its rank; #1 is twice the size.
-function TopAlbums({ albums }: { albums: TopAlbum[] }) {
+function TopTracks({ tracks }: { tracks: TopTrack[] }) {
   return (
     <ol className="paste grid grid-cols-2 gap-x-[18px] gap-y-[30px] px-1 pt-2.5 lg:grid-cols-3">
-      {albums.map((album, i) => {
+      {tracks.map((track, i) => {
         const first = i === 0;
-        // Last.fm sizes covers by URL; the big one gets 600px so it stays sharp.
-        const cover = first ? album.cover?.replace("/300x300/", "/600x600/") : album.cover;
+        // The big one gets Spotify's 640px cover so it stays sharp.
+        const cover = first ? track.coverLarge : track.cover;
         return (
-          <li key={album.url} className={first ? "col-span-2 lg:row-span-2" : undefined}>
-            <a href={album.url} target="_blank" rel="noopener noreferrer" className="group block">
+          <li key={track.url} className={first ? "col-span-2 lg:row-span-2" : undefined}>
+            <a href={track.url} target="_blank" rel="noopener noreferrer" className="group block">
               <span className="tape halftone relative block aspect-square">
                 {cover && (
                   <img
@@ -54,13 +45,10 @@ function TopAlbums({ albums }: { albums: TopAlbum[] }) {
                     : "line-clamp-2 text-sm leading-tight font-extrabold"
                 }`}
               >
-                {album.title}
+                {track.title}
               </b>
               <span className={`block leading-snug ${first ? "text-[15px]" : "text-[13px]"}`}>
-                {album.artist}
-              </span>
-              <span className={`block leading-snug tabular-nums ${first ? "text-[15px]" : "text-[13px]"}`}>
-                {plays(album.plays)}
+                {track.artist}
               </span>
             </a>
           </li>
@@ -70,13 +58,12 @@ function TopAlbums({ albums }: { albums: TopAlbum[] }) {
   );
 }
 
-// Ranked rows with a photo and a pop bar measured against #1; the top three get bigger photos.
+// Ranked rows with a photo; the top three get bigger photos.
 function TopArtists({ artists }: { artists: TopArtist[] }) {
-  const most = artists[0]?.plays || 1;
   return (
     <ol className="grid gap-4">
       {artists.map((artist, i) => (
-        <li key={artist.name}>
+        <li key={artist.url}>
           <a href={artist.url} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3">
             <span className="w-7 shrink-0 text-[13px] tabular-nums">{String(i + 1).padStart(2, "0")}</span>
             <span className={`halftone relative shrink-0 ${i < 3 ? "size-22" : "size-14"}`}>
@@ -84,15 +71,9 @@ function TopArtists({ artists }: { artists: TopArtist[] }) {
                 <img src={artist.image} alt="" loading="lazy" className="absolute inset-0 size-full object-cover" />
               )}
             </span>
-            <span className="min-w-0 flex-1">
-              <span className="flex items-baseline justify-between gap-3">
-                <b className="display block text-2xl leading-tight font-extrabold [font-stretch:80%] group-hover:ink-link">
-                  {artist.name}
-                </b>
-                <span className="shrink-0 text-[13px] tabular-nums">{plays(artist.plays)}</span>
-              </span>
-              <span className="mt-1.5 block h-2 bg-pop" style={{ width: `${(artist.plays / most) * 100}%` }} />
-            </span>
+            <b className="display block min-w-0 text-2xl leading-tight font-extrabold [font-stretch:80%] group-hover:ink-link">
+              {artist.name}
+            </b>
           </a>
         </li>
       ))}
@@ -105,24 +86,15 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  // Only the four known periods; anything else (or none) shows this month.
+  // Only the three known periods; anything else (or none) shows the last 4 weeks.
   const { period: asked } = await searchParams;
   const period: Period =
-    typeof asked === "string" && Object.hasOwn(PERIODS, asked) ? (asked as Period) : "1month";
+    typeof asked === "string" && Object.hasOwn(PERIODS, asked) ? (asked as Period) : "short_term";
 
-  const [user, { albums, artists }] = await Promise.all([
-    getLastFmUser().catch(() => null),
-    getListening(period).catch(() => ({ albums: [], artists: [] })),
-  ]);
-  if (!user) notFound(); // no Last.fm keys, or Last.fm is down
-
-  const since = new Date(user.since).toLocaleString("en-US", { month: "long", year: "numeric" });
-  const facts = [
-    ["Plays", user.plays],
-    ["Artists", user.artists],
-    ["Albums", user.albums],
-    ["Tracks", user.tracks],
-  ] as const;
+  const listening = await getListening(period).catch(() => null);
+  if (!listening) notFound(); // no Spotify login, or Spotify is down
+  const { tracks, artists } = listening;
+  const nothing = <p>Nothing played in the {PERIODS[period].toLowerCase()}.</p>;
 
   return (
     <div className="grid gap-14 md:grid-cols-2 md:gap-[clamp(24px,5vw,72px)]">
@@ -131,16 +103,8 @@ export default async function Page({
           Listening
         </h1>
         <p className="mt-5 max-w-[26ch] text-[length:clamp(20px,2vw,26px)] leading-snug">
-          What&apos;s been playing since {since}.
+          What&apos;s been playing lately.
         </p>
-        <dl className="mt-7 grid max-w-[420px] grid-cols-2 gap-x-6 gap-y-4">
-          {facts.map(([label, value]) => (
-            <div key={label}>
-              <dt className="text-[13px]">{label}</dt>
-              <dd className="mt-0.5 font-bold tabular-nums">{value.toLocaleString("en-US")}</dd>
-            </div>
-          ))}
-        </dl>
         <nav aria-label="Period" className="mt-8 flex flex-wrap gap-2">
           {(Object.keys(PERIODS) as Period[]).map((key) => (
             <Link
@@ -159,24 +123,10 @@ export default async function Page({
       </div>
 
       <div>
-        <Section title="Top albums">
-          {albums.length > 0 ? <TopAlbums albums={albums} /> : <p>Nothing played {PERIODS[period].toLowerCase()} yet.</p>}
-        </Section>
+        <Section title="Top tracks">{tracks.length > 0 ? <TopTracks tracks={tracks} /> : nothing}</Section>
         <Section title="Top artists">
-          {artists.length > 0 ? <TopArtists artists={artists} /> : <p>Nothing played {PERIODS[period].toLowerCase()} yet.</p>}
-          {/* Last.fm's API terms ask for a credit and link wherever its data is shown. */}
-          <p className="mt-5 text-[13px]">
-            Charts via{" "}
-            <a
-              href={`https://www.last.fm/user/${encodeURIComponent(process.env.LAST_FM_USERNAME ?? "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ink-link font-bold"
-            >
-              Last.fm
-            </a>
-            ; artist photos from Spotify.
-          </p>
+          {artists.length > 0 ? <TopArtists artists={artists} /> : nothing}
+          <p className="mt-5 text-[13px]">Charts, covers and artist photos from Spotify.</p>
         </Section>
       </div>
     </div>

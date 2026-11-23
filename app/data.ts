@@ -30,7 +30,7 @@ export const captions: Record<string, string> = {
   // "photos/DSCF0186.JPG": "Clouds after the rain",
 };
 
-// Music (the On repeat section and the now-playing bar) comes from Last.fm; see app/music.ts.
+// Music (On repeat, the Listening page and the now-playing bar) comes from Spotify; see app/music.ts.
 
 // Favourite films, shows and games, four of each. poster is a file in public/favourites/;
 // leave it out and a halftone block stands in. year can be a range ("2011–2019"), and detail
