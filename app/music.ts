@@ -222,6 +222,36 @@ export async function getSpotifyNowPlaying(): Promise<Track | null> {
   };
 }
 
+// GET /v1/me/<path> as you; throws when there's no login or Spotify says no, so callers fall back.
+async function spotifyMe(path: string) {
+  const token = await getSpotifyUserToken();
+  if (!token) throw new Error("No Spotify login");
+  const res = await fetch(`https://api.spotify.com/v1/me/${path}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+    signal: AbortSignal.timeout(TIMEOUT),
+  });
+  if (!res.ok) throw new Error(`Spotify ${path} failed: ${res.status}`);
+  return res.json();
+}
+
+// The last song you played on Spotify; null when there's none or Spotify is unavailable.
+export async function getSpotifyLastPlayed(): Promise<Track | null> {
+  try {
+    const item = (await spotifyMe("player/recently-played?limit=1")).items?.[0]?.track;
+    if (!item) return null;
+    return {
+      title: item.name,
+      artist: item.artists.map((a: { name: string }) => a.name).join(", "),
+      cover: pickCover(item.album.images),
+      playing: false,
+      spotifyUrl: item.external_urls.spotify,
+    };
+  } catch {
+    return null;
+  }
+}
+
 // The album on Spotify when the title and an artist match exactly; a Spotify search otherwise,
 // so a deluxe edition or a same-named album never gets linked by mistake.
 async function findAlbumOnSpotify(title: string, artist: string) {
