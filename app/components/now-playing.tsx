@@ -34,7 +34,7 @@ export function NowPlaying() {
       {/* Keeps the page's last lines from hiding behind the bar. */}
       <div aria-hidden="true" className="h-12" />
       <a
-        // The exact track, or a Spotify search when it can't be matched (see the route).
+        // The track on Spotify.
         href={track.spotifyUrl}
         target="_blank"
         rel="noopener noreferrer"

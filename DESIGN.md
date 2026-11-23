@@ -212,7 +212,7 @@ and `pop`. Never hard-code a hex value in a component; use the tokens so the ink
   now-playing bar background, the dots of the halftone. 6.4:1 on paper.
 - **Pop / Secondary (#FF6C2F, Orange):** accents only: section divider rules, link underlines,
   the halftone ground, the equalizer bars, the photo placeholder, the cartridge grip ridges,
-  the TV knobs, the paste-up tape and the artist chart bars. It is never used for text on paper
+  the TV knobs and the paste-up tape. It is never used for text on paper
   or for small text on ink (2.5:1 on Medium Blue).
 - **Paper / Neutral (#F4F4F1):** the page ground and the text colour on ink surfaces.
 - **Scrim (#000000 at 85%):** behind an opened photo.

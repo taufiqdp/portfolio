@@ -85,7 +85,7 @@ async function OnRepeat() {
     <Section id="music" title="On repeat">
       <ol className="grid gap-4">
         {tracks.map((track) => (
-          <li key={`${track.title}-${track.artist}`}>
+          <li key={track.url}>
             <a
               href={track.url}
               target="_blank"

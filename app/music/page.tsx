@@ -39,9 +39,10 @@ function TopTracks({ tracks }: { tracks: TopTrack[] }) {
                 </span>
               </span>
               <b
-                className={`mt-3 block group-hover:ink-link ${
+                // line-clamp-2 sets its own display; adding block there would cancel the clamp.
+                className={`mt-3 group-hover:ink-link ${
                   first
-                    ? "display text-[length:clamp(22px,2.4vw,32px)] leading-[0.95]"
+                    ? "display block text-[length:clamp(22px,2.4vw,32px)] leading-[0.95]"
                     : "line-clamp-2 text-sm leading-tight font-extrabold"
                 }`}
               >

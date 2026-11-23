@@ -109,7 +109,7 @@
     a:hover .tv-screen::after { animation: none; }
   }
 
-  /* Paste-up (top albums on /music): covers tilted a few degrees and held on with pop tape;
+  /* Paste-up (top tracks on /music): covers tilted a few degrees and held on with pop tape;
      hover or focus straightens one. The tape overprints the cover like riso ink. */
   .paste > li { position: relative; transform: rotate(var(--tilt, 0deg)); transition: transform 0.25s; }
   .paste > li:nth-child(1) { --tilt: -1.5deg; }
